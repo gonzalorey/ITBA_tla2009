@@ -12,7 +12,7 @@ void matchBoldItalic(char * text, FILE *out);
 void matchHeading(char *text, FILE *out);
 void matchIndent(char *text, FILE *out);
 void matchRedirect(char *text, FILE *out);
-void matchExtLink(char * text, FILE *out);
+void matchExtLink(char * link, char * text, FILE *out);
 
 #endif /* MATCHFUNCTION_H_ */
 

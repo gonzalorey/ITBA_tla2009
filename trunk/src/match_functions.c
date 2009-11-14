@@ -37,16 +37,16 @@ void matchHeading(char *text, FILE *out){
 }
 
 void matchIndent(char *text, FILE *out){
-	 
-	
-	
+
+
+
 }
 
 void matchRedirect(char *text, FILE *out){
 	fprintf(out, "%s<a href=\"/w/index.php?title=%s\">%s</a>",ARROW_TAG, text, text);
-	
+
 }
 
-void matchExtLink(char * text, FILE *out){
-	fprintf(out, "<a href=\"http://%s\" >%s</a>", text, text);
+void matchExtLink(char * link, char * text, FILE *out){
+	fprintf(out, "<a href=\"http://%s\" >%s</a>", link, text);
 }
