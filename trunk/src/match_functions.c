@@ -1,6 +1,8 @@
 #include "match_functions.h"
 #include <string.h>
 
+
+
 void
 matchItalic(char * text, FILE * out){
 	text+=2;
@@ -32,6 +34,17 @@ void matchHeading(char *text, FILE *out){
 	text[strlen(text)-counter] = '\0';
 	counter--;
 	fprintf(out,"<h%d>%s</h%d>",counter,text,counter);
+}
+
+void matchIndent(char *text, FILE *out){
+	 
+	
+	
+}
+
+void matchRedirect(char *text, FILE *out){
+	fprintf(out, "%s<a href=\"/w/index.php?title=%s\">%s</a>",ARROW_TAG, text, text);
+	
 }
 
 void matchExtLink(char * text, FILE *out){

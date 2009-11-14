@@ -4,15 +4,25 @@
 %}
 
 %x EXTERNLINK
+%x REDIREC
 
 %%
-"["?"http://"		BEGIN(EXTERNLINK);
-<EXTERNLINK>[\] ]	BEGIN(0);
-<EXTERNLINK>[^\] ]*	{matchExtLink(yytext,yyout);};
-''[^']*''        	{matchItalic(yytext,yyout);}
-'''[^']*'''       {matchBold(yytext,yyout);}
-'''''[^']*'''''   {matchBoldItalic(yytext,yyout);}
-={2,6}.*={2,6}	{matchHeading(yytext,yyout);}
+''[^']*''        								{matchItalic(yytext,yyout);}
+'''[^']*'''       							{matchBold(yytext,yyout);}
+'''''[^']*'''''  								{matchBoldItalic(yytext,yyout);}
+={2,6}.+={2,6}									{matchHeading(yytext,yyout);}
+:{1,3}.+												{matchIndent(yytext,yyout);}
+
+"#REDIRECT [["									BEGIN(REDIREC);
+<REDIREC>[^\]]+								{matchRedirect(yytext,yyout);}
+<REDIREC>"]]"										BEGIN(0);
+
+
+"["?"http://"										BEGIN(EXTERNLINK);
+<EXTERNLINK>[\] ]								BEGIN(0);
+<EXTERNLINK>[^\] ]*							{matchExtLink(yytext,yyout);}
+
+
 
 %%
 
@@ -21,7 +31,7 @@ main(int argc, char ** argv)
 {
 	//mal uso del programa
 	if ( argc < 2 || argc > 3) {
-		printf("Modo de uso: pwiki archivoDeEntrada [archivoDeSalida]\n");
+		printf("Modo de uso: pwiki inputFile [outputFile]\n");
 		return 0;
 	}
 	
@@ -36,3 +46,4 @@ main(int argc, char ** argv)
 	fprintf(yyout, "</body></html>");
 	return 0;
 }
+
