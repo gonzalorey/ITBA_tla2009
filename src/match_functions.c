@@ -23,13 +23,17 @@ void matchBoldItalic(char * text, FILE *out){
 void matchHeading(char *text, FILE *out){
 	int l = strlen(text);
 	int counter, i;
-	
+
 	for( counter=0, i=0; i<l/2; i++)
 		if(text[i] == '=')
 			counter++;
-			 
+
 	text+= counter;
 	text[strlen(text)-counter] = '\0';
 	counter--;
 	fprintf(out,"<h%d>%s</h%d>",counter,text,counter);
+}
+
+void matchExtLink(char * text, FILE *out){
+	fprintf(out, "<a href=\"http://%s\" >%s</a>", text, text);
 }

@@ -3,7 +3,12 @@
 #include "match_functions.h"
 %}
 
+%x EXTERNLINK
+
 %%
+"["?"http://"		BEGIN(EXTERNLINK);
+<EXTERNLINK>[\] ]	BEGIN(0);
+<EXTERNLINK>[^\] ]*	{matchExtLink(yytext,yyout);};
 ''[^']*''        	{matchItalic(yytext,yyout);}
 '''[^']*'''       {matchBold(yytext,yyout);}
 '''''[^']*'''''   {matchBoldItalic(yytext,yyout);}
