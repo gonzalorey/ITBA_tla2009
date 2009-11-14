@@ -22,6 +22,6 @@ all:
 	$(CC) $(CFLAGS) $(SRC_PATH)*.c *.c -I $(INC_PATH)
 	$(CC) *.o $(LDFLAGS) -o $(EXEC) 
 	rm *.o
-	rm lex.yy.c
+	rm lex.yy.*
 clean:
 	rm $(EXEC)
