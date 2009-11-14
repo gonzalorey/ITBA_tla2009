@@ -7,12 +7,8 @@
 ''[^']*''        	{matchItalic(yytext,yyout);}
 '''[^']*'''       {matchBold(yytext,yyout);}
 '''''[^']*'''''   {matchBoldItalic(yytext,yyout);}
+={2,6}.*={2,6}	{matchHeading(yytext,yyout);}
 
-==[=']*==         {matchHeading(yytext,yyout,1);}
-===[=']*===       {matchHeading(yytext,yyout,2);}
-====[=']*====     {matchHeading(yytext,yyout,3);}
-=====[=']*=====		{matchHeading(yytext,yyout,4);}
-======[=']*======	{matchHeading(yytext,yyout,5);}
 %%
 
 int

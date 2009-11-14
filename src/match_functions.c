@@ -20,9 +20,16 @@ void matchBoldItalic(char * text, FILE *out){
 	fprintf(out, "<i><b>%s</b></i>", text);
 }
 
-void matchHeading(char *text, FILE *out,unsigned int state){
-	state++; //Sumamos uno por la estructura del heading {=}^n//
-	text+=state;
-	text[strlen(text)-state] = '\0';
-	fprintf(out,"<h%d>%s<h%d>",state,text,state);
+void matchHeading(char *text, FILE *out){
+	int l = strlen(text);
+	int counter, i;
+	
+	for( counter=0, i=0; i<l/2; i++)
+		if(text[i] == '=')
+			counter++;
+			 
+	text+= counter;
+	text[strlen(text)-counter] = '\0';
+	counter--;
+	fprintf(out,"<h%d>%s</h%d>",counter,text,counter);
 }
