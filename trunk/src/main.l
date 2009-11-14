@@ -1,11 +1,13 @@
 %{
 #include <stdio.h>
-#include "../include/italic.h"
+#include "../include/match_functions.h"
 %}
 
 %%
-''[^']*''	{matchItalic(yytext, yyout);};
+''[^']*''	{matchItalic(yytext,yyout);};
+'''[^']*''' {matchBold(yytext,yyout);};
 %%
+
 
 main()
 {
