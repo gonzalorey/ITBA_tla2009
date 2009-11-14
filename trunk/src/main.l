@@ -1,12 +1,18 @@
 %{
 #include <stdio.h>
-#include "../include/match_functions.h"
+#include "match_functions.h"
 %}
 
 %%
-''[^']*''	{matchItalic(yytext,yyout);}
-'''[^']*''' {matchBold(yytext,yyout);}
-'''''[^']*''''' {matchBoldItalic(yytext,yyout);}
+''[^']*''        	{matchItalic(yytext,yyout);}
+'''[^']*'''       {matchBold(yytext,yyout);}
+'''''[^']*'''''   {matchBoldItalic(yytext,yyout);}
+
+==[=']*==         {matchHeading(yytext,yyout,1);}
+===[=']*===       {matchHeading(yytext,yyout,2);}
+====[=']*====     {matchHeading(yytext,yyout,3);}
+=====[=']*=====		{matchHeading(yytext,yyout,4);}
+======[=']*======	{matchHeading(yytext,yyout,5);}
 %%
 
 int
