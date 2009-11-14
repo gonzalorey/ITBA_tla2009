@@ -4,15 +4,17 @@
 %}
 
 %%
-''[^']*''	{matchItalic(yytext,yyout);};
-'''[^']*''' {matchBold(yytext,yyout);};
+''[^']*''	{matchItalic(yytext,yyout);}
+'''[^']*''' {matchBold(yytext,yyout);}
 %%
 
-
-main()
+int
+main(void)
 {
 yyin = fopen("../input", "r");
 yyout = fopen("../out.html", "w");
+fprintf(yyout, "<html><head></head><body>");
 yylex();
+fprintf(yyout, "</body></html>");
 return 0;
 }
