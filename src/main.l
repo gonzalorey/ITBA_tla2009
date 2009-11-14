@@ -1,35 +1,39 @@
 %{
 #include <stdio.h>
 #include "match_functions.h"
+
+int elinkNum = 1;
+char str[100];
+char str2[100];
 %}
 
-%x EXTERNLINK
+%x ELINK
+%x ELINKNAME
 %x REDIREC
 
 %%
-''[^']*''        								{matchItalic(yytext,yyout);}
-'''[^']*'''       							{matchBold(yytext,yyout);}
-'''''[^']*'''''  								{matchBoldItalic(yytext,yyout);}
-={2,6}.+={2,6}									{matchHeading(yytext,yyout);}
-:{1,3}.+												{matchIndent(yytext,yyout);}
+"http://"[^ ]*$				{matchExtLink(yytext+7, yytext, yyout);}
+"[http://"					BEGIN(ELINK);
+<ELINKNAME>" "*/\]			{sprintf(str2, "[%d]", elinkNum++);BEGIN(ELINK);}
+<ELINKNAME>[^\]]+			{strcpy(str2, yytext+1);BEGIN(ELINK);}
+<ELINK>[^\] ]*				{strcpy(str, yytext); BEGIN(ELINKNAME);}
+<ELINK>\]					{matchExtLink(str, str2, yyout); BEGIN(0);}
+"\n"						{fprintf(yyout, "<br/>");}
+''[^']*''        			{matchItalic(yytext,yyout);}
+'''[^']*'''       			{matchBold(yytext,yyout);}
+'''''[^']*'''''  			{matchBoldItalic(yytext,yyout);}
+={2,6}.+={2,6}				{matchHeading(yytext,yyout);}
+:{1,3}.+					{matchIndent(yytext,yyout);}
 
-"#REDIRECT [["									BEGIN(REDIREC);
-<REDIREC>[^\]]+								{matchRedirect(yytext,yyout);}
-<REDIREC>"]]"										BEGIN(0);
-
-
-"["?"http://"										BEGIN(EXTERNLINK);
-<EXTERNLINK>[\] ]								BEGIN(0);
-<EXTERNLINK>[^\] ]*							{matchExtLink(yytext,yyout);}
-
-
-
+"#REDIRECT [["				BEGIN(REDIREC);
+<REDIREC>[^\]]+				{matchRedirect(yytext,yyout);}
+<REDIREC>"]]"				BEGIN(0);
 %%
 
 int
 main(int argc, char ** argv)
 {
-	//mal uso del programa
+	//si se uso mal el programa
 	if ( argc < 2 || argc > 3) {
 		printf("Modo de uso: pwiki inputFile [outputFile]\n");
 		return 0;
