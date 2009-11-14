@@ -6,7 +6,7 @@
 
 CC = gcc
 LEX = flex
-CFLAGS = -c -Wall -g
+CFLAGS = -c -g
 LDFLAGS = -lfl
 
 #Directorios
