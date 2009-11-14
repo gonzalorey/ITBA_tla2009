@@ -13,3 +13,9 @@ void matchBold(char * text, FILE * out){
 	text[strlen(text)-3] = '\0';
 	fprintf(out, "<b>%s</b>", text);
 }
+
+void matchBoldItalic(char * text, FILE *out){
+	text+=5;
+	text[strlen(text)-5] = '\0';
+	fprintf(out, "<i><b>%s</b></i>", text);
+}

@@ -6,6 +6,7 @@
 %%
 ''[^']*''	{matchItalic(yytext,yyout);}
 '''[^']*''' {matchBold(yytext,yyout);}
+'''''[^']*''''' {matchBoldItalic(yytext,yyout);}
 %%
 
 int
