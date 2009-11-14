@@ -5,6 +5,7 @@
 
 void matchItalic(char *text, FILE * out);
 void matchBold(char *text, FILE * out);
+void matchBoldItalic(char * text, FILE *out);
 
 #endif /* MATCHFUNCTION_H_ */
 
