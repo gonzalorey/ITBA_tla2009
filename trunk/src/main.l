@@ -2,32 +2,42 @@
 #include <stdio.h>
 #include "match_functions.h"
 
+#define MAX_LENGTH 150
+
 int elinkNum = 1;
-char str[100];
-char str2[100];
+char str[MAX_LENGTH];
+char str2[MAX_LENGTH];
 %}
 
 %x ELINK
 %x ELINKNAME
+%x ILINK
+%x ILINKPIPE
 %x REDIREC
 
 %%
-"http://"[^ ]*$				{matchExtLink(yytext+7, yytext, yyout);}
-"[http://"					BEGIN(ELINK);
+"http://"[^ ]*$					{matchExtLink(yytext+7, yytext, yyout);}
+"[http://"							BEGIN(ELINK);
 <ELINKNAME>" "*/\]			{sprintf(str2, "[%d]", elinkNum++);BEGIN(ELINK);}
-<ELINKNAME>[^\]]+			{strcpy(str2, yytext+1);BEGIN(ELINK);}
-<ELINK>[^\] ]*				{strcpy(str, yytext); BEGIN(ELINKNAME);}
-<ELINK>\]					{matchExtLink(str, str2, yyout); BEGIN(0);}
-"\n"						{fprintf(yyout, "<br/>");}
-''[^']*''        			{matchItalic(yytext,yyout);}
+<ELINKNAME>[^\]]+				{strcpy(str2, yytext+1);BEGIN(ELINK);}
+<ELINK>[^\] ]*					{strcpy(str, yytext); BEGIN(ELINKNAME);}
+<ELINK>\]								{matchExtLink(str, str2, yyout); BEGIN(0);}
+"\n"										{fprintf(yyout, "<br/>");}
+''[^']*''        				{matchItalic(yytext,yyout);}
 '''[^']*'''       			{matchBold(yytext,yyout);}
-'''''[^']*'''''  			{matchBoldItalic(yytext,yyout);}
-={2,6}.+={2,6}				{matchHeading(yytext,yyout);}
-:{1,3}.+					{matchIndent(yytext,yyout);}
+'''''[^']*'''''  				{matchBoldItalic(yytext,yyout);}
+={2,6}.+={2,6}					{matchHeading(yytext,yyout);}
+:{1,3}.+								{matchIndent(yytext,yyout);}
 
-"#REDIRECT [["				BEGIN(REDIREC);
-<REDIREC>[^\]]+				{matchRedirect(yytext,yyout);}
-<REDIREC>"]]"				BEGIN(0);
+"#REDIRECT [["					BEGIN(REDIREC);
+<REDIREC>[^\]]+					{matchRedirect(yytext,yyout);}
+<REDIREC>"]]"						BEGIN(0);
+			
+"[["									{BEGIN(ILINK);}
+<ILINK>[^\]\|]+				{strcpy(str,yytext);strcpy(str2,yytext);}
+<ILINK>\|[^\]]+				{strcpy(str2,yytext+1);}
+<ILINK>"]]"						{matchInterLink(str,str2,yyout);BEGIN(0);}
+
 %%
 
 int

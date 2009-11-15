@@ -42,11 +42,17 @@ void matchIndent(char *text, FILE *out){
 
 }
 
+void matchInterLink(char *text, char * title, FILE *out){
+	fprintf(out, "<a href=\"/w/index.php?title=%s\">%s</a>", text, title);
+	
+}
+
+
 void matchRedirect(char *text, FILE *out){
 	fprintf(out, "%s<a href=\"/w/index.php?title=%s\">%s</a>",ARROW_TAG, text, text);
 
 }
 
 void matchExtLink(char * link, char * text, FILE *out){
-	fprintf(out, "<a href=\"http://%s\" >%s</a>", link, text);
+	fprintf(out, "<a href=\"http://%s\">%s</a>", link, text);
 }
