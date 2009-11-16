@@ -36,11 +36,64 @@ void matchHeading(char *text, FILE *out){
 	fprintf(out,"<h%d>%s</h%d>",counter,text,counter);
 }
 
-void matchIndent(char *text, FILE *out){
 
+
+
+void matchIndent(tIndent * ref, FILE *out){
+	
+	if( ref->index != 0)
+	recursiveIndent(ref,out,ref->index);
 
 
 }
+
+void recursiveIndent(tIndent *ref,FILE *out,int index){
+	
+	int i,j;
+	int place = ref->index-index;
+	int relativeLevel; // La base es uno
+	
+	if(index==0)
+		return;
+		
+	if(place >0)
+		relativeLevel = ref->indents[place].level - ref->indents[place-1].level;	
+	else
+		relativeLevel = ref->indents[place].level;
+		
+	
+		
+		if(  relativeLevel == 0 ){
+				fprintf(out,"<dd>%s</dd>",ref->indents[place].text);
+				recursiveIndent(ref,out,index-1);
+				return;
+		}
+		
+		
+		if(  relativeLevel < 0 ){
+
+			for(j=0;j < -1*relativeLevel;j++)
+				fprintf(out,"</dd></dl>");
+		}		
+		
+		if(  relativeLevel > 0 ){
+		
+			for(j=0;j< relativeLevel;j++)
+				fprintf(out,"<dl><dd>");
+		
+		}	 
+	
+		fprintf(out,"%s",ref->indents[place].text);
+		recursiveIndent(ref,out,index-1);
+		fprintf(out,"</dd></dl>");
+	
+
+		
+	
+
+	
+}
+
 
 void matchInterLink(char *text, char * title, FILE *out){
 	fprintf(out, "<a href=\"/w/index.php?title=%s\">%s</a>", text, title);

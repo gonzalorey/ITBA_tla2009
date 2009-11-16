@@ -1,4 +1,24 @@
 Hola, ''Estoes'' '''''una prueba ''''', y esto '''tambien'''
+== Level 1 ==
+=== Level 2 ===
+==== Level 3 ====
+===== Level 4 =====
+====== Level 5 ======
+
+:first indent
+::second indent
+:::::::::::::::third indent
+:::::::::::::::third indent
+:::::::::::::::third indent
+:::::::::::::::third indent
+::second indent
+:First Again!
+
+
+#REDIRECT [[Augusto Maraca]]
+
+[[Name of page]]
+[[Name of page|Text to display]]
 http://www.google.com.ar
 el link [http://www.google.com.ar Link a google] tambien va a google
 el link [http://www.google.com.ar    ] tambien
