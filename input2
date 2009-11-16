@@ -17,9 +17,9 @@ Hola, ''Estoes'' '''''una prueba ''''', y esto '''tambien'''
 
 #REDIRECT [[Augusto Maraca]]
 
-[[Name of page]]
-[[Name of page|Text to display]]
-http://www.google.com.ar
+'''[[Name of page]]'''
+'''''[[Name of page|Text to display]]'''''
+''http://www.google.com.ar	un link en cursiva''
 el link [http://www.google.com.ar Link a google] tambien va a google
 el link [http://www.google.com.ar    ] tambien
 el link [http://www.google.com.ar] tambien

@@ -4,10 +4,13 @@
 
 void printReferences();
 
-
 int elinkNum = 1;
 int refNum = 0;
 int stateCaller;
+boolean italic = FALSE;
+boolean bold = FALSE;
+boolean itaBold = FALSE;
+
 
 char str[MAX_LENGTH];
 char str2[MAX_LENGTH];
@@ -51,16 +54,16 @@ tIndent ind;
 <INDENT>"\n\n"					{matchIndent(&ind,yyout);BEGIN(0);	}
 
 
-"http://"[^ ]*$				{matchExtLink(yytext+7, yytext, yyout);}
+"http://"[^ \n\t]*				{matchExtLink(yytext+7, yytext, yyout);}
 "[http://"					{stateCaller = 0; BEGIN(ELINK);}
 <ELINKNAME>" "*/\]			{sprintf(str2, "[%d]", elinkNum++);BEGIN(ELINK);}
 <ELINKNAME>[^\]]+			{strcpy(str2, yytext+1);BEGIN(ELINK);}
 <ELINK>[^\] ]*				{strcpy(str, yytext); BEGIN(ELINKNAME);}
 <ELINK>\]					{matchExtLink(str, str2, yyout); BEGIN(stateCaller);}
 "\n"							{fprintf(yyout, "<br/>");}\
-''[^']*''        			{matchItalic(yytext,yyout);}
-'''[^']*'''       			{matchBold(yytext,yyout);}
-'''''[^']*'''''  			{matchBoldItalic(yytext,yyout);}
+''/[^']        				{matchItalic(yyout);}
+'''/[^']        			{matchBold(yyout);}
+'''''/[^']        			{matchBoldItalic(yyout);}
 ={2,6}.+={2,6}				{matchHeading(yytext,yyout);}
 
 "#REDIRECT [["				BEGIN(REDIREC);
