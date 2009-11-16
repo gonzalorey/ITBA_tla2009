@@ -20,11 +20,11 @@ typedef struct{
 }tIndent;
 
 
+typedef enum{FALSE, TRUE} boolean;
 
-
-void matchItalic(char *text, FILE * out);
-void matchBold(char *text, FILE * out);
-void matchBoldItalic(char * text, FILE *out);
+void matchItalic(FILE * out);
+void matchBold(FILE * out);
+void matchBoldItalic(FILE *out);
 void matchHeading(char *text, FILE *out);
 void matchIndent(tIndent * ref, FILE *out);
 void matchRedirect(char *text, FILE *out);
