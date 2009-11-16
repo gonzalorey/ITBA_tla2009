@@ -4,10 +4,8 @@
 
 void printReferences();
 
-#define MAX_LENGTH 150
 
 int elinkNum = 1;
-
 int refNum = 0;
 int stateCaller;
 
@@ -15,14 +13,18 @@ char str[MAX_LENGTH];
 char str2[MAX_LENGTH];
 
 typedef struct{
-	char refName[20];
+	char refName[REF_CANT];
 	char link[MAX_LENGTH];
 	char linkName[MAX_LENGTH];
 	char explanation[MAX_LENGTH*3];
 	int timesRef;	//cantidad de referencias que se hicieron
 }refElem;
 
-refElem references[20];
+
+
+refElem references[REF_CANT];
+tIndent ind;
+
 %}
 
 %x ELINK
@@ -31,20 +33,35 @@ refElem references[20];
 %x ILINKPIPE
 %x REDIREC
 %x REFCREATE
-
+%x INDENT
 %%
+
+:														{BEGIN(INDENT);}
+
+<INDENT>:{1,10}							{ ind.indents[ind.index].level = (int)strlen(yytext)-1;}
+															
+												
+<INDENT>[^:\"\n"]+						{ 
+															strcpy(ind.indents[ind.index].text,yytext); 	
+															ind.indents[ind.index].level++;			
+															ind.index++;
+															
+														 }
+															
+<INDENT>"\n\n"					{matchIndent(&ind,yyout);BEGIN(0);	}
+
+
 "http://"[^ ]*$				{matchExtLink(yytext+7, yytext, yyout);}
 "[http://"					{stateCaller = 0; BEGIN(ELINK);}
 <ELINKNAME>" "*/\]			{sprintf(str2, "[%d]", elinkNum++);BEGIN(ELINK);}
 <ELINKNAME>[^\]]+			{strcpy(str2, yytext+1);BEGIN(ELINK);}
 <ELINK>[^\] ]*				{strcpy(str, yytext); BEGIN(ELINKNAME);}
 <ELINK>\]					{matchExtLink(str, str2, yyout); BEGIN(stateCaller);}
-"\n"						{fprintf(yyout, "<br/>");}
+"\n"							{fprintf(yyout, "<br/>");}\
 ''[^']*''        			{matchItalic(yytext,yyout);}
 '''[^']*'''       			{matchBold(yytext,yyout);}
 '''''[^']*'''''  			{matchBoldItalic(yytext,yyout);}
 ={2,6}.+={2,6}				{matchHeading(yytext,yyout);}
-:{1,3}.+					{matchIndent(yytext,yyout);}
 
 "#REDIRECT [["				BEGIN(REDIREC);
 <REDIREC>[^\]]+				{matchRedirect(yytext,yyout);}
@@ -95,6 +112,9 @@ main(int argc, char ** argv)
 		printf("Modo de uso: pwiki inputFile [outputFile]\n");
 		return 0;
 	}
+	
+	ind.index = 0;
+	
 	
 	yyin = fopen(argv[1], "r");
 	if (argc == 3)
