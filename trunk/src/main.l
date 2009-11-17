@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
 #include "match_functions.h"
+#include <string.h>
 
 void printReferences();
 
@@ -26,7 +27,7 @@ typedef struct{
 
 
 refElem references[REF_CANT];
-tIndent ind;
+tList list;
 
 %}
 
@@ -37,21 +38,69 @@ tIndent ind;
 %x REDIREC
 %x REFCREATE
 %x INDENT
+%x BULLET
+%x NUMBERED
 %%
 
-:														{BEGIN(INDENT);}
 
-<INDENT>:{1,10}							{ ind.indents[ind.index].level = (int)strlen(yytext)-1;}
-															
-												
-<INDENT>[^:\"\n"]+						{ 
-															strcpy(ind.indents[ind.index].text,yytext); 	
-															ind.indents[ind.index].level++;			
-															ind.index++;
+
+:														{BEGIN(INDENT);strcpy(list.oTag,"<dl>");
+															strcpy(list.cTag,"</dl>");
+															strcpy(list.moTag,"<dd>");
+															strcpy(list.mcTag,"</dd>");
+															}
+<INDENT>:{1,20}							{ list.matches[list.index].level = (int)strlen(yytext)-1;}												
+<INDENT>[^:\"\n"]+					{ 
+															strcpy(list.matches[list.index].text,yytext); 	
+															list.matches[list.index].level++;			
+															list.index++;
 															
 														 }
+<INDENT>"\n\n"							{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));}
+														
+													
+													
+														
+"*"													  {BEGIN(BULLET);
+															strcpy(list.oTag,"<ul>");
+															strcpy(list.cTag,"</ul>");
+															strcpy(list.moTag,"<li>");
+															strcpy(list.mcTag,"</li>");
+															}
 															
-<INDENT>"\n\n"					{matchIndent(&ind,yyout);BEGIN(0);	}
+															
+<BULLET>"*"{1,20}							{ list.matches[list.index].level = (int)strlen(yytext)-1;}												
+<BULLET>[^*\"\n"]+					{ 
+															strcpy(list.matches[list.index].text,yytext); 	
+															list.matches[list.index].level++;			
+															list.index++;
+														}														
+<BULLET>"\n\n"						{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));	}
+														
+		
+		
+"#"													  {BEGIN(NUMBERED);
+															strcpy(list.oTag,"<ol>");
+															strcpy(list.cTag,"</ol>");
+															strcpy(list.moTag,"<li>");
+															strcpy(list.mcTag,"</li>");
+															}
+<NUMBERED>"#"{1,20}							{ list.matches[list.index].level = (int)strlen(yytext)-1;}												
+<NUMBERED>[^#\"\n"]+					{ 
+																strcpy(list.matches[list.index].text,yytext); 	
+															  	list.matches[list.index].level++;			
+																	list.index++;
+															}														
+<NUMBERED>"\n\n"					{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));	}
+
+
+
+
+
+				
+								
+														
+															
 
 
 "http://"[^ \n\t]*				{matchExtLink(yytext+7, yytext, yyout);}
@@ -116,7 +165,9 @@ main(int argc, char ** argv)
 		return 0;
 	}
 	
-	ind.index = 0;
+	list.index = 0;
+
+	
 	
 	
 	yyin = fopen(argv[1], "r");
