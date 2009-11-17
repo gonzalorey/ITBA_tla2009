@@ -11,6 +11,8 @@
 
 #define DEBUG FALSE
 
+//TEXT + 1 porque TEXT es el ultimo elemento del enum de tokens.
+#define CANT_TOKEN (TEXT+1)
 
 typedef struct{
 	char text[MAX_LENGTH];
@@ -26,9 +28,25 @@ typedef struct{
 	int index;
 }tList;
 
+typedef struct{
+	char refName[REF_CANT];
+	char link[MAX_LENGTH];
+	char linkName[MAX_LENGTH];
+	char explanation[MAX_LENGTH*3];
+	int timesRef;	//cantidad de referencias que se hicieron
+}refElem;
+
+
+typedef enum{ITALIC, BOLD, I_LINK_OPEN, I_LINK_SEPARATOR, I_LINK_CLOSE, E_LINK_OPEN,
+	E_LINK_SEPARATOR, E_LINK_CLOSE, HTTP, REDIRECT, HEAD1, HEAD2, HEAD3,
+	HEAD4, HEAD5, REF_OPEN, REF_SEPARATOR, REF_CLOSE, REF_LIST, BULLET_LIST_ITEM,
+	NUMBERED_LIST_ITEM, INDENTING_ITEM, IMAGE_OPEN, IMAGE_CLOSE, IMAGE_SEPARATOR,
+	IMAGE_ALT, TEXT} tokens;
+
 
 typedef enum{FALSE, TRUE} boolean;
 
+void printReferences();
 void matchItalic(FILE * out);
 void matchBold(FILE * out);
 void matchBoldItalic(FILE *out);
