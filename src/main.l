@@ -3,20 +3,10 @@
 #include "match_functions.h"
 #include <string.h>
 
-void printReferences();
 
 int elinkNum = 1;
 int refNum = 0;
 int stateCaller;
-
-typedef enum{ITALIC, BOLD, I_LINK_OPEN, I_LINK_SEPARATOR, I_LINK_CLOSE, E_LINK_OPEN,
-	E_LINK_SEPARATOR, E_LINK_CLOSE, HTTP, REDIRECT, HEAD1, HEAD2, HEAD3,
-	HEAD4, HEAD5, REF_OPEN, REF_SEPARATOR, REF_CLOSE, REF_LIST, BULLET_LIST_ITEM,
-	NUMBERED_LIST_ITEM, INDENTING_ITEM, IMAGE_OPEN, IMAGE_CLOSE, IMAGE_SEPARATOR,
-	IMAGE_ALT, TEXT} tokens;
-
-//TEXT + 1 porque TEXT es el ultimo elemento del enum de tokens.
-#define CANT_TOKEN (TEXT+1)
 
 //vector con la cantidad de apariciones de cada lexema.
 char * tokenName[CANT_TOKEN] = {"ITALIC", "BOLD", "I_LINK_OPEN", "I_LINK_SEPARATOR", "I_LINK_CLOSE",
@@ -28,14 +18,6 @@ int lexemesCant[CANT_TOKEN];
 
 char str[MAX_LENGTH];
 char str2[MAX_LENGTH];
-
-typedef struct{
-	char refName[REF_CANT];
-	char link[MAX_LENGTH];
-	char linkName[MAX_LENGTH];
-	char explanation[MAX_LENGTH*3];
-	int timesRef;	//cantidad de referencias que se hicieron
-}refElem;
 
 boolean inParagraph = TRUE;
 
@@ -81,55 +63,56 @@ tList list;
 															
 															
 <BULLET>"*"{1,20}							{ list.matches[list.index].level = (int)strlen(yytext)-1;}												
-<BULLET>[^*\"\n"]+					{ 
-															strcpy(list.matches[list.index].text,yytext); 	
-															list.matches[list.index].level++;			
-															list.index++;
-														}														
-<BULLET>"\n\n"						{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));	}
+<BULLET>[^*\"\n"]+						{ 
+																strcpy(list.matches[list.index].text,yytext); 	
+																list.matches[list.index].level++;			
+																list.index++;
+																}														
+<BULLET>"\n\n"								{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));	}
 														
 		
 		
-^"#"													  {BEGIN(NUMBERED);
-															strcpy(list.oTag,"<ol>");
-															strcpy(list.cTag,"</ol>");
-															strcpy(list.moTag,"<li>");
-															strcpy(list.mcTag,"</li>");
-															}
+^"#"													 {BEGIN(NUMBERED);
+																strcpy(list.oTag,"<ol>");
+																strcpy(list.cTag,"</ol>");
+																strcpy(list.moTag,"<li>");
+																strcpy(list.mcTag,"</li>");
+																}
 <NUMBERED>"#"{1,20}							{ list.matches[list.index].level = (int)strlen(yytext)-1;}												
 <NUMBERED>[^#\"\n"]+					{ 
 																strcpy(list.matches[list.index].text,yytext); 	
 															  	list.matches[list.index].level++;			
 																	list.index++;
 															}														
-<NUMBERED>"\n\n"					{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));	}
+<NUMBERED>"\n\n"							{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));	}
 
 
 
-"http://"[^ \n\t]*			{lexemesCant[HTTP]++; lexemesCant[TEXT]++; matchExtLink(yytext+7, yytext, yyout);}
-"[http://"					{lexemesCant[E_LINK_OPEN]++; lexemesCant[HTTP]++; stateCaller = 0; BEGIN(ELINK);}
-<ELINKNAME>" "*/\]			{sprintf(str2, "[%d]", elinkNum++);BEGIN(ELINK);}
-<ELINKNAME>[^\]]+			{	
-								lexemesCant[E_LINK_SEPARATOR]++; lexemesCant[TEXT]++; 
-								strcpy(str2, yytext+1);BEGIN(ELINK);
-							}
-<ELINK>[^\] ]*				{lexemesCant[TEXT]++; strcpy(str, yytext); BEGIN(ELINKNAME);}
-<ELINK>\]					{lexemesCant[E_LINK_CLOSE]++; matchExtLink(str, str2, yyout); BEGIN(stateCaller);}
+"http://"[^ \n\t]*					{lexemesCant[HTTP]++; lexemesCant[TEXT]++; matchExtLink(yytext+7, yytext, yyout);}
+"[http://"								{lexemesCant[E_LINK_OPEN]++; lexemesCant[HTTP]++; stateCaller = 0; BEGIN(ELINK);}
+<ELINKNAME>" "*/\]				{sprintf(str2, "[%d]", elinkNum++);BEGIN(ELINK);}
+<ELINKNAME>[^\]]+					{	
+														lexemesCant[E_LINK_SEPARATOR]++; lexemesCant[TEXT]++; 
+														 strcpy(str2, yytext+1);BEGIN(ELINK);
+														}
+<ELINK>[^\] ]*							{lexemesCant[TEXT]++; strcpy(str, yytext); BEGIN(ELINKNAME);}
+<ELINK>\]									{lexemesCant[E_LINK_CLOSE]++; matchExtLink(str, str2, yyout); BEGIN(stateCaller);}
 
 
-"\n"?"\n"/[=:\*]			{
-								if (inParagraph) {
-									fprintf(yyout, "\n</p>\n");
-									inParagraph = FALSE;
-								}
-							}
-"\n\n"						{
-								if (inParagraph)
-									fprintf(yyout, "\n</p>\n<p>\n");
-								else
-									fprintf(yyout, "\n<p>\n");
-								inParagraph = TRUE;
-							}
+"\n"?"\n"/[=:\*]					{
+															if (inParagraph) {
+																fprintf(yyout, "\n</p>\n");
+																inParagraph = FALSE;
+																}
+													}
+													
+"\n\n"							{
+											if (inParagraph)
+												fprintf(yyout, "\n</p>\n<p>\n");
+											else
+												fprintf(yyout, "\n<p>\n");
+											inParagraph = TRUE;
+										}
 "\n"						{
 								if (!inParagraph) {
 									fprintf(yyout, "\n<p>\n");
