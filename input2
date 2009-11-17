@@ -4,8 +4,6 @@ Hola, ''Estoes'' '''''una prueba ''''', y esto '''tambien'''
 ==== Level 3 ====
 ===== Level 4 =====
 ====== Level 5 ======
-
-
 :1
 ::2
 :::3
@@ -19,7 +17,6 @@ Hola, ''Estoes'' '''''una prueba ''''', y esto '''tambien'''
 * Three
 ** Three point one
 *** Three double point one
-
 
 
 # One
@@ -36,11 +33,17 @@ Hola, ''Estoes'' '''''una prueba ''''', y esto '''tambien'''
 #REDIRECT [[Augusto Maraca]]
 
 '''[[Name of page]]'''
+
 '''''[[Name of page|Text to display]]'''''
+
 ''http://www.google.com.ar	un link en cursiva''
+
 el link [http://www.google.com.ar Link a google] tambien va a google
+
 el link [http://www.google.com.ar    ] tambien
+
 el link [http://www.google.com.ar] tambien
+
 Voy a citar a google.<ref name="google">[http://www.google.com.ar Google], esto tiene que apuntar a google.</ref>
 Start conditions are declared in the definitions (first)
 section of the input using unindented lines beginning with
@@ -58,6 +61,7 @@ scanner which is independent of any of the other rules in the
 flex input. Because of this, exclusive start conditions make it
 easy to specify "mini-scanners" which scan portions of the input
 that are syntactically different from the rest (e.g., comments).
+
 Start conditions are declared in the definitions (first)
 section of the input using unindented lines beginning with
 either `%s' or `%x' followed by a list of names. The former
@@ -75,6 +79,7 @@ flex input. Because of this, exclusive start conditions make it
 easy to specify "mini-scanners" which scan portions of the input
 that are syntactically different from the rest (e.g., comments). 
 Voy a citar al itba.<ref name="itba">[http://www.itba.edu.ar ITBA], link al itba.</ref>
+
 Start conditions are declared in the definitions (first)
 section of the input using unindented lines beginning with
 either `%s' or `%x' followed by a list of names. The former
@@ -91,6 +96,7 @@ scanner which is independent of any of the other rules in the
 flex input. Because of this, exclusive start conditions make it
 easy to specify "mini-scanners" which scan portions of the input
 that are syntactically different from the rest (e.g., comments).
+
 Start conditions are declared in the definitions (first)
 section of <ref name="google" />the input using unindented lines beginning with
 either `%s' or `%x' followed by a list of names. The former
@@ -108,4 +114,5 @@ flex input. Because of this, exclusive start conditions make it
 easy to specify "mini-scanners" which scan portions of the input
 that are syntactically different from the rest (e.g., comments). 
 Voy a citar a yahoo.<ref name="yahoo">[http://www.yahoo.com yahoo], esto va a yahoo.</ref>
-<references/>
+
+Referencias<references/>
