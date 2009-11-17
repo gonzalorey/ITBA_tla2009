@@ -48,54 +48,60 @@ void matchHeading(char *text, FILE *out){
 
 
 
-void matchIndent(tIndent * ref, FILE *out){
+void matchList(tList * ref, FILE *out){
+	
+	
+	if(DEBUG){
+	int i;	
+	for(i=0; i< ref->index;i++)
+		fprintf(out,"{\"%s\",%d}\n",ref->matches[i].text,ref->matches[i].level);
+	
+	}
 
 	if( ref->index != 0)
-	recursiveIndent(ref,out,ref->index);
+	recursiveList(ref,out,ref->index);
 
 
 }
 
-void recursiveIndent(tIndent *ref,FILE *out,int index){
+void recursiveList(tList *ref,FILE *out,int index){
 
 	int i,j;
 	int place = ref->index-index;
-	int relativeLevel; // La base es uno
+	int relativeLevel; 
 
 	if(index==0)
 		return;
 
 	if(place >0)
-		relativeLevel = ref->indents[place].level - ref->indents[place-1].level;
+		relativeLevel = ref->matches[place].level - ref->matches[place-1].level;
 	else
-		relativeLevel = ref->indents[place].level;
+		relativeLevel = ref->matches[place].level;
 
 
 
 		if(  relativeLevel == 0 ){
-				fprintf(out,"<dd>%s</dd>",ref->indents[place].text);
-				recursiveIndent(ref,out,index-1);
-				return;
+				fprintf(out,"%s%s%s",ref->moTag,ref->matches[place].text,ref->mcTag);	
 		}
 
 
 		if(  relativeLevel < 0 ){
 
 			for(j=0;j < -1*relativeLevel;j++)
-				fprintf(out,"</dd></dl>");
+				fprintf(out,"%s%s",ref->mcTag,ref->cTag);
+			fprintf(out,"%s%s%s",ref->moTag,ref->matches[place].text,ref->mcTag);
 		}
 
 		if(  relativeLevel > 0 ){
 
 			for(j=0;j< relativeLevel;j++)
-				fprintf(out,"<dl><dd>");
-
+				fprintf(out,"%s%s",ref->oTag,ref->moTag);
+			fprintf(out,"%s",ref->matches[place].text);
 		}
 
-		fprintf(out,"%s",ref->indents[place].text);
-		recursiveIndent(ref,out,index-1);
-		fprintf(out,"</dd></dl>");
-
+	
+		recursiveList(ref,out,index-1);
+		fprintf(out,"%s%s",ref->mcTag,ref->cTag);
 
 
 
