@@ -1,0 +1,186 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[usenames]{color}
+\usepackage{gastex}
+
+
+\title{Trabajo Pr\'actico \\ Teor\'ia de Lenguaje, Aut\'omatas y Compiladores }
+\author{Pablo Mui\~na, Augusto Mc Intosh, Marcos Pianelli}
+
+
+\begin{document}
+
+\maketitle
+
+\section{ \'Indice }
+
+\begin{enumerate}
+\item Introducci\'on
+\item Consideraciones realizadas
+\item Wikitext : Tokens aceptados y sus respectivos aut\'omatas
+\item Modo de uso de los programas
+\end{enumerate}
+
+
+\section{ Introducci\'on }
+
+
+
+\section{ Consideraciones realizadas }
+
+Se tuvo en cuenta que los tokens que el programa aceptar\'ia solo ser\'ian las referenciadas en el \emph{cheetsheet} provisto en el material de referencia.
+
+\section{Wikitext : Tokens aceptados y sus respectivos aut\'omatas}
+
+Los tokens a detectar seg\'un el \emph{cheetsheet} son los siguientes :\\
+
+
+\begin{center}
+ %\begin{verbatim}
+ \begin{enumerate}
+\item\begin{verbatim}[[\end{verbatim} 
+\item	\begin{verbatim}|\end{verbatim} 
+\item	\begin{verbatim}]]\end{verbatim} 
+\item	\begin{verbatim}[\end{verbatim} 
+\item	\begin{verbatim} \n\end{verbatim} 
+\item	\begin{verbatim}]\end{verbatim} 
+\item	\begin{verbatim}http://\end{verbatim} 
+\item	\begin{verbatim}[http://\end{verbatim} 
+\item	\begin{verbatim}''\end{verbatim} 
+\item	\begin{verbatim}'''\end{verbatim} 
+\item	\begin{verbatim}'''''\end{verbatim} 
+
+\item	\begin{verbatim}#REDIRECT\end{verbatim} 
+\item	\begin{verbatim}==\end{verbatim} 
+\item	\begin{verbatim}===\end{verbatim} 
+\item	\begin{verbatim}====\end{verbatim} 
+\item	\begin{verbatim}=====\end{verbatim} 
+\item	\begin{verbatim}======\end{verbatim} 
+\item	\begin{verbatim}<ref name="\end{verbatim} 
+\item	\begin{verbatim}">\end{verbatim} 
+\item	\begin{verbatim}" />\end{verbatim} 
+\item	\begin{verbatim},\end{verbatim} 
+\item	\begin{verbatim}''\end{verbatim} 
+\item	\begin{verbatim}'''\end{verbatim} 
+\item	\begin{verbatim}*\end{verbatim} 
+\item	\begin{verbatim}#\end{verbatim} 
+\item	\begin{verbatim}:\end{verbatim} 
+\item	\begin{verbatim}~~~\end{verbatim} 
+\item	\begin{verbatim}~~~~\end{verbatim} 
+\item	\begin{verbatim}~~~~~\end{verbatim} 
+\item	\begin{verbatim}[[File:\end{verbatim}
+\end{enumerate}
+ %\end{verbatim} 
+\end{center}
+
+De la cuales se obtuvieron las siguientes expresiones regulares y Aut\'omatas:
+\\\\
+
+\quad 1.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node(B)(50,15){$q_1$}
+	\node[Nmarks={r}](C)(100,15){$q_2$}
+	\drawedge[curvedepth=6](A,B){[}
+	\drawedge[curvedepth=6](B,C){[}
+\end{picture}
+\end{center}
+
+
+\quad 2.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node[Nmarks={r}](B)(50,15){$q_2$}
+	\drawedge[curvedepth=6](A,B){|}
+\end{picture}
+\end{center}
+
+
+\quad 16.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node(B)(50,15){$q_1$}
+	\node(C)(100,15){$q_2$}
+	\node(D)(150,15){$q_3$}
+	\node(E)(200,15){$q_4$}
+	\node[Nmarks={r}](F)(250,15){$q_5$}
+	\drawedge[curvedepth=6](A,B){=}
+	\drawedge[curvedepth=6](B,C){=}
+	\drawedge[curvedepth=6](C,D){=}
+	\drawedge[curvedepth=6](D,E){=}
+	\drawedge[curvedepth=6](E,F){=}
+\end{picture}
+\end{center}
+
+
+\quad 17.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node(B)(50,15){$q_1$}
+	\node(C)(100,15){$q_2$}
+	\node(D)(150,15){$q_3$}
+	\node(E)(200,15){$q_4$}
+	\node(F)(250,15){$q_5$}
+	\node[Nmarks={r}](G)(300,15){$q_6$}
+	\drawedge[curvedepth=6](A,B){=}
+	\drawedge[curvedepth=6](B,C){=}
+	\drawedge[curvedepth=6](C,D){=}
+	\drawedge[curvedepth=6](D,E){=}
+	\drawedge[curvedepth=6](E,F){=}
+	\drawedge[curvedepth=6](F,G){=}
+\end{picture}
+\end{center}
+
+
+
+.... DO MORE
+
+
+
+
+
+
+\section {Modo de uso de los programas}
+
+Para poder utilizar el programa se tiene que ejecutar el MakeFile, posici\'onandose en la carpeta \emph{tla2009} y ejecutando el comando \emph{make} en el shell de preferencia.\\
+\begin{center}
+ \begin{verbatim}
+  Make
+ \end{verbatim}
+\end{center}
+
+Luego para ejecutar el programa de conversi\'on de WikiText a HTML se tipea : \\
+
+\begin{center}
+ \begin{verbatim}
+  ./pwiki inputFile outputFile 
+ \end{verbatim}
+\end{center}
+
+Donde inputFile es el archivo de entrada el cual alberga el texto de formato WikiText y outputFile es el archivo de salida con formato HTML.\\
+
+
+
+\end{document}
+
