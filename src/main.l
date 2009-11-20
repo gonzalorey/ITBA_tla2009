@@ -40,7 +40,7 @@ tList list;
 															list.index++;
 															
 							}
-<INDENT>"\n"/[^:]							{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));}
+<INDENT>"\n\n"							{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));}
 														
 													
 													
@@ -58,9 +58,8 @@ tList list;
 																strcpy(list.matches[list.index].text,yytext); 	
 																list.matches[list.index].level++;			
 																list.index++;
-												}
-							
-<BULLET>"\n"/[^\*]					{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));	}
+																}														
+<BULLET>"\n\n"								{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));	}
 														
 		
 		
@@ -76,7 +75,7 @@ tList list;
 															  	list.matches[list.index].level++;			
 																	list.index++;
 															}														
-<NUMBERED>"\n"/[^\#]							{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));	}
+<NUMBERED>"\n\n"							{matchList(&list,yyout);BEGIN(0);memset(&list,0,sizeof(tList));	}
 
 
 

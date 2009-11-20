@@ -9,15 +9,18 @@ Hola, ''Estoes'' '''''una prueba ''''', y esto '''tambien'''
 :::3
 ::::4
 :::::5
+
 http://dl.dropbox.com/u/2319924/1-66%20Session%20700%20-%20WWDC%20Sessions%20Kickoff.m4v
 
 * One
 * Two
-** Two point one
+* Two point one
 ** Two point two
 * Three
 ** Three point one
 *** Three double point one
+
+
 # One
 # Two
 ## Two point one
@@ -25,7 +28,10 @@ http://dl.dropbox.com/u/2319924/1-66%20Session%20700%20-%20WWDC%20Sessions%20Kic
 # Three
 ## Three point one
 ### Three double point one
+<<<<<<< .mine
+=======
 Fin del listado numérico.
+>>>>>>> .r31
 
 ~~
 
@@ -40,7 +46,7 @@ Fin del listado numérico.
 
 
 
-#REDIRECT [[Pagina a la que redirijo]]
+#REDIRECT [[Augusto Maraca]]
 
 '''[[Nombre de la pagina a la que apunto]]'''
 
@@ -126,5 +132,4 @@ easy to specify "mini-scanners" which scan portions of the input
 that are syntactically different from the rest (e.g., comments). 
 Voy a citar a yahoo.<ref name="yahoo">[http://www.yahoo.com yahoo], esto va a yahoo.</ref>
 
-Referencias con tag < references /> (sin los espacios):<references/>
-Referencias con tag {{ Reflist }} (sin los espacios):{{Reflist}}
+Referencias<references/>
