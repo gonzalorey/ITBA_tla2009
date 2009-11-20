@@ -114,11 +114,11 @@ tList list;
 ''/[^']        				{matchItalic(yyout);}
 '''/[^']        			{matchBold(yyout);}
 '''''/[^']        			{matchBoldItalic(yyout);}
-^={2}[^=]+={2}$				{matchHeading(yytext,yyout, 2);}
-^={3}[^=]+={3}$				{matchHeading(yytext,yyout, 3);}
-^={4}[^=]+={4}$				{matchHeading(yytext,yyout, 4);}
-^={5}[^=]+={5}$				{matchHeading(yytext,yyout, 5);}
-^={6}[^=]+={6}$				{matchHeading(yytext,yyout, 6);}
+^={2}(={0,1}[^=]+)+={2}$	{matchHeading(yytext,yyout, 2);}
+^={3}(={0,2}[^=]+)+={3}$	{matchHeading(yytext,yyout, 3);}
+^={4}(={0,3}[^=]+)+={4}$	{matchHeading(yytext,yyout, 4);}
+^={5}(={0,4}[^=]+)+={5}$	{matchHeading(yytext,yyout, 5);}
+^={6}(={0,5}[^=]+)+={6}$	{matchHeading(yytext,yyout, 6);}
 
 "#REDIRECT [["				{BEGIN(REDIREC);}
 <REDIREC>[^\]]+				{matchRedirect(yytext,yyout);}

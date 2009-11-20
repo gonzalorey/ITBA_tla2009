@@ -76,11 +76,11 @@ int lexemesCant[CANT_TOKEN];
 ''/[^']        				{/*matchItalic(yyout);*/}
 '''/[^']        			{/*matchBold(yyout);*/}
 '''''/[^']        			{/*matchBoldItalic(yyout);*/}
-^={2}[^=]+={2}$				{printHeaderEntry(HEAD1);}
-^={3}[^=]+={3}$				{printHeaderEntry(HEAD2);}
-^={4}[^=]+={4}$				{printHeaderEntry(HEAD3);}
-^={5}[^=]+={5}$				{printHeaderEntry(HEAD4);}
-^={6}[^=]+={6}$				{printHeaderEntry(HEAD5);}
+^={2}(={0,1}[^=]+)+={2}$	{printHeaderEntry(HEAD1);}
+^={3}(={0,2}[^=]+)+={3}$		{printHeaderEntry(HEAD2);}
+^={4}(={0,3}[^=]+)+={4}$		{printHeaderEntry(HEAD3);}
+^={5}(={0,4}[^=]+)+={5}$		{printHeaderEntry(HEAD4);}
+^={6}(={0,5}[^=]+)+={6}$		{printHeaderEntry(HEAD5);}
 
 
 "#REDIRECT [["				{
