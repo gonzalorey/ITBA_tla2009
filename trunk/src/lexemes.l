@@ -5,20 +5,20 @@
 void printEntry(char * lexeme, char * token);
 void printHeaderEntry(int headNum);
 
-typedef enum{ITALIC, BOLD, I_LINK_OPEN, I_LINK_SEPARATOR, I_LINK_CLOSE, E_LINK_OPEN,
+typedef enum{ITALIC, BOLD, ITABOLD, I_LINK_OPEN, I_LINK_SEPARATOR, I_LINK_CLOSE, E_LINK_OPEN,
 	E_LINK_SEPARATOR, E_LINK_CLOSE, HTTP, REDIRECT, HEAD1, HEAD2, HEAD3,
 	HEAD4, HEAD5, REF_OPEN, REF_NAME, REF_NAME_ALT, REF_SEPARATOR, REF_CLOSE, REF_LIST, BULLET_LIST_ITEM,
 	NUMBERED_LIST_ITEM, INDENTING_ITEM, IMAGE_OPEN, IMAGE_CLOSE, IMAGE_SEPARATOR,
-	IMAGE_ALT, TEXT} tokens;
+	IMAGE_ALT, SIGNATURE, TEXT} tokens;
 
 //TEXT + 1 porque TEXT es el ultimo elemento del enum de tokens.
 #define CANT_TOKEN (TEXT+1)
 
 //vector con la cantidad de apariciones de cada lexema.
-char * tokenName[CANT_TOKEN] = {"''", "'''", "[[", "|", "]]",
+char * tokenName[CANT_TOKEN] = {"''", "'''", "'''''", "[[", "|", "]]",
 	"[", "(espacio en blanco)", "]", "http://", "#REDIRECT", "==", "===", "====",
 	"=====", "======", "<ref name=\"", "\">", "\" />", ", ", "</ref>", "REF_LIST", "BULLET_LIST_ITEM",
-	"NUMBERED_LIST_ITEM", "INDENTING_ITEM", "[[File:", "]]", "|", "alt=", "TEXT"};
+	"NUMBERED_LIST_ITEM", "INDENTING_ITEM", "[[File:", "]]", "|", "alt=", "SIGNATURE", "TEXT"};
 	
 int lexemesCant[CANT_TOKEN];
 
@@ -73,15 +73,16 @@ int lexemesCant[CANT_TOKEN];
 							printEntry(tokenName[E_LINK_CLOSE], tokenName[E_LINK_CLOSE]);BEGIN(0);}
 
 
-''/[^']        				{/*matchItalic(yyout);*/}
-'''/[^']        			{/*matchBold(yyout);*/}
-'''''/[^']        			{/*matchBoldItalic(yyout);*/}
+''/[^']        				{lexemesCant[ITALIC]++; printEntry(tokenName[ITALIC], tokenName[ITALIC]);}
+'''/[^']        			{lexemesCant[BOLD]++; printEntry(tokenName[BOLD], tokenName[BOLD]);}
+'''''/[^']        			{lexemesCant[ITABOLD]++; printEntry(tokenName[ITABOLD], tokenName[ITABOLD]);}
 ^={2}(={0,1}[^=]+)+={2}$	{printHeaderEntry(HEAD1);}
 ^={3}(={0,2}[^=]+)+={3}$		{printHeaderEntry(HEAD2);}
 ^={4}(={0,3}[^=]+)+={4}$		{printHeaderEntry(HEAD3);}
 ^={5}(={0,4}[^=]+)+={5}$		{printHeaderEntry(HEAD4);}
 ^={6}(={0,5}[^=]+)+={6}$		{printHeaderEntry(HEAD5);}
 
+"~"{3,5}					{lexemesCant[SIGNATURE]++;printEntry(yytext, tokenName[SIGNATURE]);}
 
 "#REDIRECT [["				{
 								lexemesCant[REDIRECT]++; lexemesCant[I_LINK_OPEN]++; 
