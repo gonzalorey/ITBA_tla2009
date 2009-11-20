@@ -1,9 +1,9 @@
 Hola, ''Estoes'' '''''una prueba ''''', y esto '''tambien'''
-== Level 1 ==
-=== Level 2 ===
-==== Level 3 ====
-===== Level 4 =====
-====== Level 5 ======
+== Header = 1 ==
+=== Header = 2 ===
+==== Header = 3 ====
+===== Header = 4 =====
+====== Header = 5 ======
 :1
 ::2
 :::3
@@ -25,7 +25,7 @@ http://dl.dropbox.com/u/2319924/1-66%20Session%20700%20-%20WWDC%20Sessions%20Kic
 # Three
 ## Three point one
 ### Three double point one
-Fin de el listado numérico.
+Fin del listado numérico.
 
 ~~
 
@@ -42,9 +42,9 @@ Fin de el listado numérico.
 
 #REDIRECT [[Pagina a la que redirijo]]
 
-'''[[Name of page]]'''
+'''[[Nombre de la pagina a la que apunto]]'''
 
-'''''[[Name of page|Text to display]]'''''
+'''''[[Nombre de la pagina a la que apunto|Texto que va a aparecer]]'''''
 
 ''http://www.google.com.ar	un link en cursiva''
 
@@ -55,6 +55,7 @@ el link [http://www.google.com.ar    ] tambien
 el link [http://www.google.com.ar] tambien
 
 Voy a citar a google.<ref name="google">[http://www.google.com.ar Google], esto tiene que apuntar a google.</ref>
+
 Start conditions are declared in the definitions (first)
 section of the input using unindented lines beginning with
 either `%s' or `%x' followed by a list of names. The former
@@ -64,7 +65,7 @@ BEGIN action. Until the next BEGIN action is executed, rules
 with the given start condition will be active and rules with
 other start conditions will be inactive. If the start condition
 is inclusive, then rules with no start conditions at all will
-also be active. If it is exclusive, then only rules qualified
+also be active. If '''''it's''''' exclusive, then only rules qualified
 with the start condition will be active. A set of rules<ref name="google" />
 contingent on the same exclusive start condition describe a
 scanner which is independent of any of the other rules in the

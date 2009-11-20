@@ -25,9 +25,9 @@ void matchBold(FILE * out){
 void matchBoldItalic(FILE *out){
 	static boolean itaBold = FALSE;
 	if (!itaBold)
-		fprintf(out, "<b>");
+		fprintf(out, "<b><i>");
 	else
-		fprintf(out, "</b>");
+		fprintf(out, "</i></b>");
 	itaBold = !itaBold;
 }
 
