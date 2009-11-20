@@ -2,12 +2,14 @@
 #define MATCHFUNCTION_H_
 
 #include <stdio.h>
+#include <time.h>
 
 #define ARROW_TAG "<img alt=\"Redirect arrow without text.svg\" src=\"http://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Redirect_arrow_without_text.svg/30px-Redirect_arrow_without_text.svg.png\" width=\"30\" height=\"13\">"
 #define MAX_LENGTH 150
 #define TAG_LENGTH 10
 #define REF_CANT   20
 #define MAX_INDENT 50
+#define USER_NAME "Tester"
 
 #define DEBUG FALSE
 
@@ -56,6 +58,7 @@ void matchExtLink(char * link, char * text, FILE *out);
 void matchInterLink(char *text, char * title, FILE *out);
 void matchList(tList * ref, FILE *out);
 void recursiveList(tList *ref,FILE *out,int index);
+void matchSignature(int cant,FILE *out);
 
 #endif /* MATCHFUNCTION_H_ */
 
