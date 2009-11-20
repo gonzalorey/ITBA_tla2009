@@ -34,7 +34,7 @@ tList list;
 															strcpy(list.mcTag,"</dd>");
 															}
 <INDENT>:{1,20}							{ list.matches[list.index].level = (int)strlen(yytext)-1;}												
-<INDENT>[^:\"\n"]+					{ 
+<INDENT>[^:\n]+					{ 
 															strcpy(list.matches[list.index].text,yytext); 	
 															list.matches[list.index].level++;			
 															list.index++;
@@ -54,7 +54,7 @@ tList list;
 															
 															
 <BULLET>"*"{1,20}							{ list.matches[list.index].level = (int)strlen(yytext)-1;}												
-<BULLET>[^*\"\n"]+						{ 
+<BULLET>[^*\n]+						{ 
 																strcpy(list.matches[list.index].text,yytext); 	
 																list.matches[list.index].level++;			
 																list.index++;
@@ -71,7 +71,7 @@ tList list;
 																strcpy(list.mcTag,"</li>");
 																}
 <NUMBERED>"#"{1,20}							{ list.matches[list.index].level = (int)strlen(yytext)-1;}												
-<NUMBERED>[^#\"\n"]+					{ 
+<NUMBERED>[^#\n]+					{ 
 																strcpy(list.matches[list.index].text,yytext); 	
 															  	list.matches[list.index].level++;			
 																	list.index++;
