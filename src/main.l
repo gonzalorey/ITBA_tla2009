@@ -120,6 +120,7 @@ tList list;
 								}
 							}
 
+"~"{3,5}						  {matchSignature(strlen(yytext),yyout);}
 
 ''/[^']        				{matchItalic(yyout);}
 '''/[^']        			{matchBold(yyout);}

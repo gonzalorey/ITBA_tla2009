@@ -124,3 +124,29 @@ void matchRedirect(char *text, FILE *out){
 void matchExtLink(char * link, char * text, FILE *out){
 	fprintf(out, "<a href=\"http://%s\">%s</a>", link, text);
 }
+
+void matchSignature(int cant,FILE *out){
+	
+	struct tm *local;
+	time_t t;
+
+	t = time(NULL);
+	local = gmtime(&t);
+	
+	
+	switch(cant){
+		case 3:  fprintf(out,"<a href=http://en.wikipedia.org/wiki/User:%s>%s</a>",USER_NAME,USER_NAME);
+		break;   
+		case 4: fprintf(out,"<a href=http://en.wikipedia.org/wiki/User:%s>%s</a> %s",USER_NAME,USER_NAME,asctime(local));
+		break;
+		case 5: fprintf(out,"%s",asctime(local));
+		break;
+		default:
+		break;
+	}
+	
+
+}
+
+
+
