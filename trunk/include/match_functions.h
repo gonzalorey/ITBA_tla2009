@@ -39,20 +39,13 @@ typedef struct{
 }refElem;
 
 
-typedef enum{ITALIC, BOLD, I_LINK_OPEN, I_LINK_SEPARATOR, I_LINK_CLOSE, E_LINK_OPEN,
-	E_LINK_SEPARATOR, E_LINK_CLOSE, HTTP, REDIRECT, HEAD1, HEAD2, HEAD3,
-	HEAD4, HEAD5, REF_OPEN, REF_SEPARATOR, REF_CLOSE, REF_LIST, BULLET_LIST_ITEM,
-	NUMBERED_LIST_ITEM, INDENTING_ITEM, IMAGE_OPEN, IMAGE_CLOSE, IMAGE_SEPARATOR,
-	IMAGE_ALT, TEXT} tokens;
-
-
 typedef enum{FALSE, TRUE} boolean;
 
 void printReferences();
 void matchItalic(FILE * out);
 void matchBold(FILE * out);
 void matchBoldItalic(FILE *out);
-void matchHeading(char *text, FILE *out);
+void matchHeading(char *text, FILE *out, int cantEquals);
 void matchRedirect(char *text, FILE *out);
 void matchExtLink(char * link, char * text, FILE *out);
 void matchInterLink(char *text, char * title, FILE *out);

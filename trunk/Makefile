@@ -13,14 +13,19 @@ LDFLAGS = -lfl
 INC_PATH = include/
 SRC_PATH = src/
 
-#Destion
-EXEC = pwiki
+#Destino
+EXEC1 = pwiki
+EXEC2 = plexemes
 
 
 all:
 	$(LEX) $(SRC_PATH)main.l
 	$(CC) $(CFLAGS) $(SRC_PATH)*.c *.c -I $(INC_PATH)
-	$(CC) *.o $(LDFLAGS) -o $(EXEC) 
+	$(CC) *.o $(LDFLAGS) -o $(EXEC1)
+	$(LEX) $(SRC_PATH)lexemes.l
+	$(CC) $(CFLAGS) *.c -I $(INC_PATH)
+	$(CC) *.o $(LDFLAGS) -o $(EXEC2) 
 	rm lex.yy.*
 clean:
-	rm $(EXEC)
+	rm $(EXEC1)
+	rm $(EXEC2)

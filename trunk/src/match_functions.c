@@ -31,31 +31,25 @@ void matchBoldItalic(FILE *out){
 	itaBold = !itaBold;
 }
 
-void matchHeading(char *text, FILE *out){
+void matchHeading(char *text, FILE *out, int cantEquals){
 	int l = strlen(text);
-	int counter, i;
+	int counter;
 
-	for( counter=0, i=0; i<l/2; i++)
-		if(text[i] == '=')
-			counter++;
+	counter = cantEquals - 1;
+	text[l-cantEquals] = '\0';
 
-	text+= counter;
-	text[strlen(text)-counter] = '\0';
-	counter--;
-	fprintf(out,"<h%d>%s</h%d>",counter,text,counter);
+	fprintf(out, "<h%d>%s</h%d>", counter, text + cantEquals, counter);
 }
 
 
-
-
 void matchList(tList * ref, FILE *out){
-	
-	
+
+
 	if(DEBUG){
-	int i;	
+	int i;
 	for(i=0; i< ref->index;i++)
 		fprintf(out,"{\"%s\",%d}\n",ref->matches[i].text,ref->matches[i].level);
-	
+
 	}
 
 	if( ref->index != 0)
@@ -68,7 +62,7 @@ void recursiveList(tList *ref,FILE *out,int index){
 
 	int i,j;
 	int place = ref->index-index;
-	int relativeLevel; 
+	int relativeLevel;
 
 	if(index==0)
 		return;
@@ -81,7 +75,7 @@ void recursiveList(tList *ref,FILE *out,int index){
 
 
 		if(  relativeLevel == 0 ){
-				fprintf(out,"%s%s%s",ref->moTag,ref->matches[place].text,ref->mcTag);	
+				fprintf(out,"%s%s%s",ref->moTag,ref->matches[place].text,ref->mcTag);
 		}
 
 
@@ -99,7 +93,7 @@ void recursiveList(tList *ref,FILE *out,int index){
 			fprintf(out,"%s",ref->matches[place].text);
 		}
 
-	
+
 		recursiveList(ref,out,index-1);
 		fprintf(out,"%s%s",ref->mcTag,ref->cTag);
 
@@ -126,17 +120,17 @@ void matchExtLink(char * link, char * text, FILE *out){
 }
 
 void matchSignature(int cant,FILE *out){
-	
+
 	struct tm *local;
 	time_t t;
 
 	t = time(NULL);
 	local = gmtime(&t);
-	
-	
+
+
 	switch(cant){
 		case 3:  fprintf(out,"<a href=http://en.wikipedia.org/wiki/User:%s>%s</a>",USER_NAME,USER_NAME);
-		break;   
+		break;
 		case 4: fprintf(out,"<a href=http://en.wikipedia.org/wiki/User:%s>%s</a> %s",USER_NAME,USER_NAME,asctime(local));
 		break;
 		case 5: fprintf(out,"%s",asctime(local));
@@ -144,7 +138,7 @@ void matchSignature(int cant,FILE *out){
 		default:
 		break;
 	}
-	
+
 
 }
 
