@@ -1,17 +1,13 @@
 %{
 #include <stdio.h>
-#include "match_functions.h"
 #include <string.h>
 
 void printEntry(char * lexeme, char * token);
-
-int elinkNum = 1;
-int refNum = 0;
-int stateCaller;
+void printHeaderEntry(int headNum);
 
 typedef enum{ITALIC, BOLD, I_LINK_OPEN, I_LINK_SEPARATOR, I_LINK_CLOSE, E_LINK_OPEN,
 	E_LINK_SEPARATOR, E_LINK_CLOSE, HTTP, REDIRECT, HEAD1, HEAD2, HEAD3,
-	HEAD4, HEAD5, REF_OPEN, REF_SEPARATOR, REF_CLOSE, REF_LIST, BULLET_LIST_ITEM,
+	HEAD4, HEAD5, REF_OPEN, REF_NAME, REF_NAME_ALT, REF_SEPARATOR, REF_CLOSE, REF_LIST, BULLET_LIST_ITEM,
 	NUMBERED_LIST_ITEM, INDENTING_ITEM, IMAGE_OPEN, IMAGE_CLOSE, IMAGE_SEPARATOR,
 	IMAGE_ALT, TEXT} tokens;
 
@@ -20,27 +16,11 @@ typedef enum{ITALIC, BOLD, I_LINK_OPEN, I_LINK_SEPARATOR, I_LINK_CLOSE, E_LINK_O
 
 //vector con la cantidad de apariciones de cada lexema.
 char * tokenName[CANT_TOKEN] = {"''", "'''", "[[", "|", "]]",
-	"[", " ", "]", "http://", "#REDIRECT", "==", "===", "====",
-	"=====", "======", "REF_OPEN", "REF_SEPARATOR", "REF_CLOSE", "REF_LIST", "BULLET_LIST_ITEM",
-	"NUMBERED_LIST_ITEM", "INDENTING_ITEM", "IMAGE_OPEN", "IMAGE_CLOSE", "IMAGE_SEPARATOR",
-	"IMAGE_ALT", "TEXT"};
+	"[", "(espacio en blanco)", "]", "http://", "#REDIRECT", "==", "===", "====",
+	"=====", "======", "<ref name=\"", "\">", "\" />", ", ", "</ref>", "REF_LIST", "BULLET_LIST_ITEM",
+	"NUMBERED_LIST_ITEM", "INDENTING_ITEM", "[[File:", "]]", "|", "alt=", "TEXT"};
+	
 int lexemesCant[CANT_TOKEN];
-
-char str[MAX_LENGTH];
-char str2[MAX_LENGTH];
-
-typedef struct{
-	char refName[REF_CANT];
-	char link[MAX_LENGTH];
-	char linkName[MAX_LENGTH];
-	char explanation[MAX_LENGTH*3];
-	int timesRef;	//cantidad de referencias que se hicieron
-}refElem;
-
-boolean inParagraph = TRUE;
-
-refElem references[REF_CANT];
-tList list;
 
 %}
 
@@ -80,7 +60,7 @@ tList list;
 "[http://"					{
 								lexemesCant[E_LINK_OPEN]++; lexemesCant[HTTP]++; 
 								printEntry(tokenName[E_LINK_OPEN], tokenName[E_LINK_OPEN]); printEntry(tokenName[HTTP], tokenName[HTTP]);
-								stateCaller = 0; BEGIN(ELINK);
+								BEGIN(ELINK);
 							}
 <ELINKNAME>" "*/\]			{BEGIN(ELINK);}
 <ELINKNAME>[^\]]+			{	
@@ -90,13 +70,18 @@ tList list;
 							}
 <ELINK>[^\] ]*				{lexemesCant[TEXT]++; printEntry(yytext, tokenName[TEXT]); BEGIN(ELINKNAME);}
 <ELINK>\]					{lexemesCant[E_LINK_CLOSE]++;
-							printEntry(tokenName[E_LINK_CLOSE], tokenName[E_LINK_CLOSE]);BEGIN(stateCaller);}
+							printEntry(tokenName[E_LINK_CLOSE], tokenName[E_LINK_CLOSE]);BEGIN(0);}
 
 
 ''/[^']        				{/*matchItalic(yyout);*/}
 '''/[^']        			{/*matchBold(yyout);*/}
 '''''/[^']        			{/*matchBoldItalic(yyout);*/}
-^={2,6}.+={2,6}$			{/*matchHeading(yytext,yyout);*/}
+^={2}[^=]+={2}$				{printHeaderEntry(HEAD1);}
+^={3}[^=]+={3}$				{printHeaderEntry(HEAD2);}
+^={4}[^=]+={4}$				{printHeaderEntry(HEAD3);}
+^={5}[^=]+={5}$				{printHeaderEntry(HEAD4);}
+^={6}[^=]+={6}$				{printHeaderEntry(HEAD5);}
+
 
 "#REDIRECT [["				{
 								lexemesCant[REDIRECT]++; lexemesCant[I_LINK_OPEN]++; 
@@ -129,37 +114,41 @@ tList list;
 "<ref name=\""[^"]+\">"[http://"	{
 									//crear una referencia no solo usa tokens de referencia, sino tambien
 									//tokens de link externo
-									lexemesCant[REF_OPEN]++; lexemesCant[E_LINK_OPEN]++;
-									lexemesCant[HTTP]++; //TODO name
-									strncpy(references[refNum].refName, yytext + 11,
-										yyleng - 11 - 10);
+									lexemesCant[REF_OPEN]++; lexemesCant[TEXT]++; lexemesCant[REF_NAME]++;
+									lexemesCant[E_LINK_OPEN]++; lexemesCant[HTTP]++;
+									printEntry(tokenName[REF_OPEN], tokenName[REF_OPEN]);
+									yytext[yyleng - 10] = '\0';
+									printEntry(yytext+11, tokenName[TEXT]);
+									printEntry(tokenName[REF_NAME], tokenName[REF_NAME]);
+									printEntry(tokenName[E_LINK_OPEN], tokenName[E_LINK_OPEN]);
+									printEntry(tokenName[HTTP], tokenName[HTTP]);
 									BEGIN(REFCREATE);
 									}
 "<ref name=\""[^"]+\"" />"		{
-								yytext[yyleng-4] = '\0';
-								int num = 0;//getRefByName(yytext + 11);
-								if (num != -1) {
-									/*fprintf(yyout, "<sup id=\"cite_ref-%s-%d\"><a href=\"#cite_note-%s\">",
-										references[num].refName, references[num].timesRef, 
-										references[num].refName);*/
-									references[num].timesRef++;
-									/*fprintf(yyout, "<span>[</span>%d<span>]</span></a></sup>", num+1);*/
+									lexemesCant[REF_OPEN]++; lexemesCant[TEXT]++; lexemesCant[REF_NAME_ALT]++;
+									printEntry(tokenName[REF_OPEN], tokenName[REF_OPEN]);
+									yytext[yyleng - 4] = '\0';
+									printEntry(yytext+11, tokenName[TEXT]);
+									printEntry(tokenName[REF_NAME_ALT], tokenName[REF_NAME_ALT]);
 								}
-								}
-<REFCREATE>[^ ]+				{lexemesCant[TEXT]++; strcpy(references[refNum].link, yytext);}
+<REFCREATE>[^ ]+				{lexemesCant[TEXT]++; printEntry(yytext, tokenName[TEXT]);}
 <REFCREATE>" "[^\]]+\]			{
 									lexemesCant[E_LINK_SEPARATOR]++; lexemesCant[TEXT]++;
 									lexemesCant[E_LINK_CLOSE]++;
-									strncpy(references[refNum].linkName, yytext+1, yyleng - 1 - 1);
+									yytext[yyleng-1] = '\0';
+									printEntry(tokenName[E_LINK_SEPARATOR], tokenName[E_LINK_SEPARATOR]);
+									printEntry(yytext+1, tokenName[TEXT]);
+									printEntry(tokenName[E_LINK_CLOSE], tokenName[E_LINK_CLOSE]);
 								}
 
 <REFCREATE>", "[^<]+"</ref>"	{
-								lexemesCant[REF_SEPARATOR]++; lexemesCant[REF_CLOSE]++;
-								strncpy(references[refNum].explanation, yytext + 2, yyleng - 2 - 6);
-								/*fprintf(yyout, "<sup id=\"cite_ref-%s-%d\"><a href=\"#cite_note-%s\">",
-									references[refNum].refName, 0, references[refNum].refName);*/
-								references[refNum].timesRef = 1;
-								/*fprintf(yyout, "<span>[</span>%d<span>]</span></a></sup>", ++refNum);*/
+								lexemesCant[REF_SEPARATOR]++; lexemesCant[TEXT]++;
+								lexemesCant[REF_CLOSE]++;
+								printEntry(tokenName[REF_SEPARATOR], tokenName[REF_SEPARATOR]);
+								yytext[yyleng-6] = '\0';
+								printEntry(yytext+2, tokenName[TEXT]);
+								printEntry(tokenName[REF_CLOSE], tokenName[REF_CLOSE]);
+
 								BEGIN(0);
 								}
 								
@@ -189,11 +178,13 @@ main(int argc, char ** argv)
 	yylex();
 
 	int i;
-	printf("\nListado de cantidad de lexemas aparecidos por cada clase de token\n");
-	printf("de token (no se muestran las clases con 0 apariciones)\n");
+	printf("\nListado de cantidad de lexemas aparecidos por cada clase\n");
+	printf("de token (no se muestran las clases con 0 apariciones)\n\n");
+	printf("%-21s| %s\n", "Token", "Cantidad de lexemas");
+	printf("---------------------|---------------------\n");
 	for (i = 0; i < CANT_TOKEN; i++) {
 		if (lexemesCant[i] != 0)
-			printf("%s: %d\n", tokenName[i], lexemesCant[i]);
+			printf("%-21s| %d\n", tokenName[i], lexemesCant[i]);
 	}
 	
 	return 0;
@@ -204,3 +195,12 @@ printEntry(char * lexeme, char * token) {
 	printf("%-21s| %s\n", token, lexeme);
 }
 
+void
+printHeaderEntry(int headNum) {
+	int cantEquals = headNum - HEAD1 + 2;
+	lexemesCant[headNum]+=2; lexemesCant[TEXT]++;
+	printEntry(tokenName[headNum], tokenName[headNum]);
+	yytext[yyleng-cantEquals] = '\0';
+	printEntry(yytext+cantEquals, tokenName[TEXT]);
+	printEntry(tokenName[headNum], tokenName[headNum]);
+}
