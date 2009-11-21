@@ -8,7 +8,7 @@ void printHeaderEntry(int headNum);
 typedef enum{ITALIC, BOLD, ITABOLD, I_LINK_OPEN, I_LINK_SEPARATOR, I_LINK_CLOSE, E_LINK_OPEN,
 	E_LINK_SEPARATOR, E_LINK_CLOSE, HTTP, REDIRECT, HEAD1, HEAD2, HEAD3,
 	HEAD4, HEAD5, REF_OPEN, REF_NAME, REF_NAME_ALT, REF_SEPARATOR, REF_CLOSE, REF_LIST, BULLET_LIST_ITEM,
-	NUMBERED_LIST_ITEM, INDENTING_ITEM, IMAGE_OPEN, IMAGE_CLOSE, IMAGE_SEPARATOR,
+	NUMBERED_LIST_ITEM, INDENTING_ITEM, IMAGE_OPEN, IMAGE_CLOSE, IMAGE_SEPARATOR, IMAGE_THUMB,
 	IMAGE_ALT, SIGNATURE, TEXT} tokens;
 
 //TEXT + 1 porque TEXT es el ultimo elemento del enum de tokens.
@@ -18,7 +18,7 @@ typedef enum{ITALIC, BOLD, ITABOLD, I_LINK_OPEN, I_LINK_SEPARATOR, I_LINK_CLOSE,
 char * tokenName[CANT_TOKEN] = {"''", "'''", "'''''", "[[", "|", "]]",
 	"[", "(espacio en blanco)", "]", "http://", "#REDIRECT", "==", "===", "====",
 	"=====", "======", "<ref name=\"", "\">", "\" />", ", ", "</ref>", "REF_LIST", "BULLET_LIST_ITEM",
-	"NUMBERED_LIST_ITEM", "INDENTING_ITEM", "[[File:", "]]", "|", "alt=", "SIGNATURE", "TEXT"};
+	"NUMBERED_LIST_ITEM", "INDENTING_ITEM", "[[File:", "]]", "|", "thumb", "alt=", "SIGNATURE", "TEXT"};
 	
 int lexemesCant[CANT_TOKEN];
 
@@ -33,6 +33,7 @@ int lexemesCant[CANT_TOKEN];
 %x INDENT
 %x BULLET
 %x NUMBERED
+%x IMAGE
 %%
 
 ^:							{BEGIN(INDENT);lexemesCant[INDENTING_ITEM]++;}
@@ -157,6 +158,34 @@ int lexemesCant[CANT_TOKEN];
 										lexemesCant[REF_LIST]++; 
 										printEntry(yytext, tokenName[REF_LIST]);
 									}
+									
+"[[File:"[^\|\]]*			{
+								lexemesCant[IMAGE_OPEN]++; lexemesCant[TEXT]++; 
+								printEntry(tokenName[IMAGE_OPEN], tokenName[IMAGE_OPEN]); 
+								printEntry(yytext+7, tokenName[TEXT]); BEGIN(IMAGE);
+							}
+<IMAGE>"|"					{
+								lexemesCant[IMAGE_SEPARATOR]++;
+								printEntry(tokenName[IMAGE_SEPARATOR], tokenName[IMAGE_SEPARATOR]);
+							}
+<IMAGE>[^\|\]]*				{lexemesCant[TEXT]++; printEntry(yytext, tokenName[TEXT]);}
+<IMAGE>"|thumb"				{
+								lexemesCant[IMAGE_SEPARATOR]++;lexemesCant[IMAGE_THUMB]++;
+								printEntry(tokenName[IMAGE_SEPARATOR], tokenName[IMAGE_SEPARATOR]);
+								printEntry(tokenName[IMAGE_THUMB], tokenName[IMAGE_THUMB]);
+							}
+<IMAGE>"|alt="[^\|\]]*		{
+								lexemesCant[IMAGE_SEPARATOR]++; lexemesCant[IMAGE_ALT]++;
+								lexemesCant[TEXT]++;
+								printEntry(tokenName[IMAGE_SEPARATOR], tokenName[IMAGE_SEPARATOR]);
+								printEntry(tokenName[IMAGE_ALT], tokenName[IMAGE_ALT]);
+								printEntry(yytext + 5, tokenName[TEXT]);
+							}
+<IMAGE>"]]"					{
+								lexemesCant[IMAGE_CLOSE]++;
+								printEntry(tokenName[IMAGE_CLOSE], tokenName[IMAGE_CLOSE]);
+								BEGIN(0);
+							}
 								
 <*>.		{/*no imprimo por default*/;}
 <*>"\n"		{/*no imprimo*/;}

@@ -9,8 +9,10 @@ int refNum = 0;
 
 char str[MAX_LENGTH];
 char str2[MAX_LENGTH];
+char str3[MAX_LENGTH];
 
 boolean inParagraph = TRUE;
+boolean isThumb = FALSE;
 
 refElem references[REF_CANT];
 tList list;
@@ -26,6 +28,7 @@ tList list;
 %x INDENT
 %x BULLET
 %x NUMBERED
+%x IMAGE
 %%
 
 ^:														{BEGIN(INDENT);strcpy(list.oTag,"<dl>");
@@ -165,6 +168,17 @@ tList list;
 										}
 										printReferences();
 									}
+									
+"[[File:"[^\|\]]*				{
+									strcpy(str, yytext+7); str2[0] = '\0'; str3[0] = '\0';
+									BEGIN(IMAGE);
+								}
+<IMAGE>"|"						{/*si es el pipe del thumb o del alt, no matchea aca.*/}
+<IMAGE>[^\|\]]*					{strcpy(str3, yytext);}
+<IMAGE>"|thumb"					{isThumb = TRUE;}
+<IMAGE>"|alt="[^\|\]]*			{strcpy(str2, yytext + 5);}
+<IMAGE>"]]"						{matchImage(str, str2, str3, isThumb, yyout);isThumb=FALSE;BEGIN(0);}
+									
 %%
 
 int

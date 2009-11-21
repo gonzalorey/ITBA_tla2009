@@ -142,5 +142,18 @@ void matchSignature(int cant,FILE *out){
 
 }
 
+void
+matchImage(char * str, char * str2, char * str3, boolean isThumb, FILE * out) {
+	if (isThumb) {
+		fprintf(out, "<div><a href=\"wiki/File:%s\">", str);
+		fprintf(out, "<img src=\"%s\" width=\"180\" alt=\"%s\"/></a>", str, str2);
+		fprintf(out, "<div>%s</div></div>", str3);
+	}
+	else {
+		fprintf(out, "<a title=\"%s\" href=\"wiki/File:%s\">", str3, str);
+		fprintf(out, "<img src=\"%s\" alt=\"%s\"/></a>", str, str2);
+	}
+}
+
 
 
