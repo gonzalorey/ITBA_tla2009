@@ -11,17 +11,13 @@ Hola, ''Esto es'' '''''una prueba ''''', y esto '''tambien'''
 :::3
 ::::4
 :::::5
-
-
 * One
 * Two
-* Two point one
+** Two point one
 ** Two point two
 * Three
 ** Three point one
 *** Three double point one
-
-
 # One
 # Two
 ## Two point one
@@ -29,8 +25,7 @@ Hola, ''Esto es'' '''''una prueba ''''', y esto '''tambien'''
 # Three
 ## Three point one
 ### Three double point one
-=======
-Fin del listado numérico.
+Fin del listado numÈrico.
 
 ~~
 
@@ -45,7 +40,7 @@ Fin del listado numérico.
 
 
 
-#REDIRECT [[Hola Augusto]]
+#REDIRECT [[Pagina a la que redirijo]]
 
 '''[[Nombre de la pagina a la que apunto]]'''
 
@@ -112,7 +107,7 @@ scanner which is independent of any of the other rules in the
 flex input. Because of this, exclusive start conditions make it
 easy to specify "mini-scanners" which scan portions of the input
 that are syntactically different from the rest (e.g., comments).
-
+[[File:revengesith.jpg|thumb|alt=Alt text|Episode III]]
 Start conditions are declared in the definitions (first)
 section of <ref name="google" />the input using unindented lines beginning with
 either `%s' or `%x' followed by a list of names. The former
@@ -131,4 +126,5 @@ easy to specify "mini-scanners" which scan portions of the input
 that are syntactically different from the rest (e.g., comments). 
 Voy a citar a yahoo.<ref name="yahoo">[http://www.yahoo.com yahoo], esto va a yahoo.</ref>
 
-Referencias<references/>
+Referencias con tag < references /> (sin los espacios):<references/>
+Referencias con tag {{ Reflist }} (sin los espacios):{{Reflist}}
