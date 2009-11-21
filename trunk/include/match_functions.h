@@ -52,6 +52,7 @@ void matchInterLink(char *text, char * title, FILE *out);
 void matchList(tList * ref, FILE *out);
 void recursiveList(tList *ref,FILE *out,int index);
 void matchSignature(int cant,FILE *out);
+void matchImage(char * str, char * str2, char * str3, boolean isThumb, FILE * out);
 
 #endif /* MATCHFUNCTION_H_ */
 
