@@ -1,16 +1,24 @@
 \documentclass[a4paper,11pt]{article}
-\usepackage[latin1]{inputenc}
+\usepackage[a4paper,left=3cm,right=3cm]{geometry}
+\usepackage[utf8]{inputenc} % en vez de latin1
+\usepackage{t1enc}
 \usepackage[spanish]{babel}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
-\usepackage{graphicx}
 \usepackage[usenames]{color}
+\usepackage{verbatim}
+\usepackage{graphicx}
 \usepackage{gastex}
 
 
+
+
+
+
+
 \title{Trabajo Pr\'actico \\ Teor\'ia de Lenguaje, Aut\'omatas y Compiladores }
-\author{Pablo Mui\~na, Augusto Mc Intosh, Marcos Pianelli}
+\author{Pablo Mui\~na, Augusto Nizzo, Marcos Pianelli}
 
 
 \begin{document}
@@ -35,7 +43,7 @@
 
 Se tuvo en cuenta que los tokens que el programa aceptar\'ia solo ser\'ian las referenciadas en el \emph{cheetsheet} provisto en el material de referencia.
 
-\section{Wikitext : Tokens aceptados y sus respectivos aut\'omatas}
+\section{Wikitext : Tokens aceptados, sus respectivas expresiones regulares y aut\'omatas}
 
 Los tokens a detectar seg\'un el \emph{cheetsheet} son los siguientes :\\
 
@@ -47,39 +55,51 @@ Los tokens a detectar seg\'un el \emph{cheetsheet} son los siguientes :\\
 \item	\begin{verbatim}|\end{verbatim} 
 \item	\begin{verbatim}]]\end{verbatim} 
 \item	\begin{verbatim}[\end{verbatim} 
-\item	\begin{verbatim} \n\end{verbatim} 
 \item	\begin{verbatim}]\end{verbatim} 
-\item	\begin{verbatim}http://\end{verbatim} 
-\item	\begin{verbatim}[http://\end{verbatim} 
+\item	\begin{verbatim}http://\end{verbatim}
 \item	\begin{verbatim}''\end{verbatim} 
 \item	\begin{verbatim}'''\end{verbatim} 
 \item	\begin{verbatim}'''''\end{verbatim} 
-
 \item	\begin{verbatim}#REDIRECT\end{verbatim} 
 \item	\begin{verbatim}==\end{verbatim} 
 \item	\begin{verbatim}===\end{verbatim} 
 \item	\begin{verbatim}====\end{verbatim} 
 \item	\begin{verbatim}=====\end{verbatim} 
 \item	\begin{verbatim}======\end{verbatim} 
+\item	\begin{verbatim}REFLIST\end{verbatim}
 \item	\begin{verbatim}<ref name="\end{verbatim} 
-\item	\begin{verbatim}">\end{verbatim} 
+\item	\begin{verbatim}">\end{verbatim}
+\item	\begin{verbatim}</ref>\end{verbatim} 
 \item	\begin{verbatim}" />\end{verbatim} 
-\item	\begin{verbatim},\end{verbatim} 
-\item	\begin{verbatim}''\end{verbatim} 
-\item	\begin{verbatim}'''\end{verbatim} 
-\item	\begin{verbatim}*\end{verbatim} 
-\item	\begin{verbatim}#\end{verbatim} 
-\item	\begin{verbatim}:\end{verbatim} 
-\item	\begin{verbatim}~~~\end{verbatim} 
-\item	\begin{verbatim}~~~~\end{verbatim} 
-\item	\begin{verbatim}~~~~~\end{verbatim} 
+\item	\begin{verbatim}, \end{verbatim}
+\item	\begin{verbatim}BULLET_LIST_ITEM\end{verbatim} 
+\item	\begin{verbatim}NUMBERED_LIST_ITEM\end{verbatim} 
+\item	\begin{verbatim}INDENTING_ITEM\end{verbatim} 
+\item	\begin{verbatim}SIGNATURE\end{verbatim}
 \item	\begin{verbatim}[[File:\end{verbatim}
+\item	\begin{verbatim}thumb\end{verbatim}
+\item	\begin{verbatim}alt=\end{verbatim}
 \end{enumerate}
  %\end{verbatim} 
 \end{center}
 
-De la cuales se obtuvieron las siguientes expresiones regulares y Aut\'omatas:
+Las expresiones regulares y los aut\'omatas correspondientes a cada token son los siguientes:
 \\\\
+
+\quad 16.
+Expresi\'on regular = (<references/>)|(\{\{Reflist\}\})
+
+\quad 22.
+Expresi\'on regular = \verb|\*+|
+
+\quad 23.
+Expresi\'on regular = \verb|#+|
+
+\quad 24.
+Expresi\'on regular = \verb|:+|
+
+\quad 25.
+Expresi\'on regular = \verb|~{3,5}|
 
 \quad 1.
 \begin{center}
@@ -154,9 +174,26 @@ De la cuales se obtuvieron las siguientes expresiones regulares y Aut\'omatas:
 
 
 
-.... DO MORE
 
+\section {Funcionamiento}
+	El analizador léxico funciona con estados, en los cuales, mantiene un control de el estado en el que está, por ejemplo, cuando se matchea la cadena de entrada
+	con la expresión regular\\
+\begin{center}
+\begin{verbatim}
+	^:
+\end{verbatim}
+\end{center}
+	Una de las instrucciones es entrar en el estado INDENT, luego, si estando en ese estado, se matchea la expresión regular\\
+\begin{center}
+\begin{verbatim}
+ :{1, 20}
+\end{verbatim}
+\end{center}
+	se tendrá como salida el código asociado a los distintos nieves de indentación con los elementos de html cómo $<dl>$, $<dd>$, $</dd>$, $</dl>$.
+	 Esto nos trae cómo problema, que no sabemos si la construcción del elementos en \emph{Wikicode} es correcta, y por lo tanto puede llevar a resultados inesperados, inclusive dificil de detectar los errores para el usuario. Ya que los tags de links, imágines, etc. puede que no se cierren bien. Si el string
+	 de entrada está bien formado, cada vez que se matchea un elemento html se vuelve al estado inicial.
 
+	
 
 
 
@@ -170,7 +207,7 @@ Para poder utilizar el programa se tiene que ejecutar el MakeFile, posici\'onand
  \end{verbatim}
 \end{center}
 
-Luego para ejecutar el programa de conversi\'on de WikiText a HTML se tipea : \\
+Para ejecutar el programa de conversi\'on de WikiText a HTML se tipea : \\
 
 \begin{center}
  \begin{verbatim}
@@ -179,6 +216,57 @@ Luego para ejecutar el programa de conversi\'on de WikiText a HTML se tipea : \\
 \end{center}
 
 Donde inputFile es el archivo de entrada el cual alberga el texto de formato WikiText y outputFile es el archivo de salida con formato HTML.\\
+
+Para ejecutar el programa que cuenta la cantidad de lexemas aparecios se tipea: \\
+\begin{center}
+ \begin{verbatim}
+  ./plexemes inputFile
+ \end{verbatim}
+\end{center}
+
+Donde inputFile es el archivo de entrada el cual alberga el texto de formato WikiTexts.\\
+
+\section{Comentarios}
+Debido a un error de cómo encaramos el trabajo, buscamos una manera de que el analisis de los token sea reentrante. Es decir, al encontrar un token que matchea "externamente" con una expresión regular, se poda el comienzo y el final según corresponda con los caracteres que no hacen falta y luego, el token restante
+se analiza nuevamente. Por ejemplo, soponer la expresión regular\\
+\begin{center}
+ \begin{verbatim}
+ 	'{2}([^']|[^']'|[^']'{3})+'{2}
+ \end{verbatim}
+\end{center}
+Que es la que corresponde a matchear texto en itálica, simpre que no haya exactamente dos comillas contenidas en pseudocódigo, las instrucciones que realiza son:\\
+\begin{tabular}{l}
+\\
+	IMPRIMIR(<i>)\\
+	TOKEN[LONGITUD-2] $\longleftarrow$ NULL CHARACTER\\
+	TOKEN $\longleftarrow$ TOKEN + 2\\
+	ANALIZAR(TOKEN)\\
+	IMPRIMIR(</i>)\\
+\\	
+\end{tabular}
+\\La referencia de este modo de uso se puede ver en 
+\begin{center}
+ \begin{verbatim}
+http://flex.sourceforge.net/manual/Reentrant-Uses.html#Reentrant-Uses
+ \end{verbatim}
+\end{center}
+No pudimos integrarlo a todos elementos del \emph{Wikicode}, por ejemplo, las listas no son reentrantes, y por lo tanto, si las mismas contienen
+links, texto en negrita, itálica etc, no van a ser parseadas.
+Luego de entender nuestro error, aprendimos que debíamos usar la instrucción de \emph{lex} "$/$", para matchear una expresión, pero no consumirla, es decir, que nuestra expresión regular debería haber sido:
+\begin{center}
+ \begin{verbatim}
+ 	'{2}/([^']|[^']'|[^']'{3})+'{2}([^']|$)
+ \end{verbatim}
+\end{center}
+y en las instrucciones, llevar un flag de control, si las itálicas estaban cerradas abrirlas y si estaban abiertas, rechazar para que matchee con la próxima regla
+\begin{center}
+ \begin{verbatim}
+ 	'{2}/([^']|$)
+ \end{verbatim}
+\end{center}
+y cerrar las itálicas y cambiar el estado de itálicas a cerrado.
+
+Este cambio de cómo encarar las cosas, cambiaría significativamente los autómatas, ya que, en lugar de matchear un texto, y entrar a un estado especial y luego a partir de ese estado tomar deciciones de que elementos dar como salida, sería matchear toda la cadena que forma un elemento html. El único que realiza este, son los elementos en itálicas, negritas y negritas e itálicas juntas.
 
 
 
