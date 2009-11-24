@@ -482,8 +482,7 @@ Expresi\'on regular =  \verb|"alt="|
 %470-85 = 300
 \setlength{\unitlength}{1pt}
 \begin{picture}(500,120)(0,0)
-	\node[Nmarks={i}](A)(0,30){$q_0$}
-	\node(B)(50,30){$q_1$}
+	\node[Nmarks={i}](B)(0,30){$q_1$}
 	\node(C)(100,30){$q_2$}
 	\node(D)(150,30){$q_3$}
 	\node(E)(200,30){$q_4$}
@@ -496,7 +495,6 @@ Expresi\'on regular =  \verb|"alt="|
 	\node(L)(200,0){$q_{11}$}
 	\node(M)(150,0){$q_{12}$}
 	\node(N)(100,0){$q_{13}$}
-	\node(O)(50,0){$q_{14}$}
 	
 	\node(Q)(50,80){$q_{16}$}
 	\node(R)(100,80){$q_{17}$}
@@ -508,13 +506,11 @@ Expresi\'on regular =  \verb|"alt="|
 	\node(X)(400,80){$q_{23}$}
 	\node(Y)(400,120){$q_{24}$}
 	\node(Z)(350,120){$q_{25}$}
-	\node(A1)(300,120){$q_{26}$}
 
 	
-	\node[Nmarks={r}](P)(0,0){$q_{15}$}
-	\node[Nmarks={r}](B1)(250,120){$q_{27}$}
+	\node[Nmarks={r}](O)(0,0){$q_{14}$}
+	\node[Nmarks={r}](A1)(250,120){$q_{26}$}
 
-	\drawedge[curvedepth=6](A,B){(}
 	\drawedge[curvedepth=6](B,C){$<$}
 	\drawedge[curvedepth=6](C,D){r}
 	\drawedge[curvedepth=6](D,E){e}
@@ -528,7 +524,6 @@ Expresi\'on regular =  \verb|"alt="|
 	\drawedge[curvedepth=6](L,M){s}
 	\drawedge[curvedepth=6](M,N){/}
 	\drawedge[curvedepth=6](N,O){$>$}
-	\drawedge[curvedepth=6](O,P){)}
 	
 	\drawedge[curvedepth=6](B,Q){ \{ }
 	\drawedge[curvedepth=6](Q,R){ \{ }
@@ -541,7 +536,6 @@ Expresi\'on regular =  \verb|"alt="|
 	\drawedge[curvedepth=6](X,Y){t}
 	\drawedge[curvedepth=6](Y,Z){\}}
 	\drawedge[curvedepth=6](Z,A1){\}}
-	\drawedge[curvedepth=6](A1,B1){)}
 
 
 \end{picture}
