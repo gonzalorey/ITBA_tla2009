@@ -25,27 +25,36 @@
 
 \maketitle
 
-\section{ \'Indice }
+\section{ Indice }
 
 \begin{enumerate}
+\item Indice
 \item Introducci\'on
 \item Consideraciones realizadas
-\item Wikitext : Tokens aceptados y sus respectivos aut\'omatas
+\item Wikitext : Tokens aceptados y sus respectivas expresiones regulares y aut\'omatas
+\item Funcionamiento
 \item Modo de uso de los programas
+\item Comentarios
+
 \end{enumerate}
 
 
 \section{ Introducci\'on }
 
+En el siguiente informe se muestran los tokens, expresiones regulares y aut\'omatas lexicogr\'aficos usados para pasar de un texto escrito en formato WikiText nativo a otro en formato HTML atrav\'es de un programa escrito en ANSI-C y Lex.\\
+
+
+
+
 
 
 \section{ Consideraciones realizadas }
 
-Se tuvo en cuenta que los tokens que el programa aceptar\'ia solo ser\'ian las referenciadas en el \emph{cheetsheet} provisto en el material de referencia.
+Se tuvo en cuenta que los tokens que el programa aceptar\'ia solo ser\'ian las referenciadas en el \emph{cheetsheet} provisto en el material de referencia dado que hay varias versiones del WikiText engine.
 
 \section{Wikitext : Tokens aceptados, sus respectivas expresiones regulares y aut\'omatas}
 
-Los tokens a detectar seg\'un el \emph{cheetsheet} son los siguientes :\\
+\subsection{Tokens:}
 
 
 \begin{center}
@@ -83,11 +92,81 @@ Los tokens a detectar seg\'un el \emph{cheetsheet} son los siguientes :\\
  %\end{verbatim} 
 \end{center}
 
-Las expresiones regulares y los aut\'omatas correspondientes a cada token son los siguientes:
-\\\\
+\subsection{Expresiones Regulares:}
+
+
+\quad 1.
+Expresi\'on regular = "[["
+
+\quad 2.
+Expresi\'on regular = "|"
+
+
+\quad 3.
+Expresi\'on regular = "]]"
+
+\quad 4.
+Expresi\'on regular = "["
+
+\quad 5.
+Expresi\'on regular = "]"
+
+\quad 6.
+Expresi\'on regular = "http://"
+
+\quad 7.
+Expresi\'on regular = "’’"
+
+\quad 8.
+Expresi\'on regular = "’’’"
+
+\quad 9.
+Expresi\'on regular = "’’’’’"
+
+
+\quad 10.
+Expresi\'on regular = "\#REDIRECT"
+
+\quad 11.
+Expresi\'on regular =  \verb|"=="|
+
+\quad 12.
+Expresi\'on regular =  \verb|"==="|
+
+\quad 13.
+Expresi\'on regular =  \verb|"===="|
+
+\quad 14.
+Expresi\'on regular =  \verb|"====="|
+
+\quad 15.
+Expresi\'on regular =  \verb|"======"|
+
+
 
 \quad 16.
 Expresi\'on regular = (<references/>)|(\{\{Reflist\}\})
+
+
+\quad 17.
+Expresi\'on regular = \verb|"<ref name=""|
+
+
+\quad 18.
+Expresi\'on regular = "">"
+
+\quad 19.
+Expresi\'on regular = "</ref>"
+
+
+
+\quad 20.
+Expresi\'on regular = "" />"
+
+
+\quad 21.
+Expresi\'on regular = ","
+
 
 \quad 22.
 Expresi\'on regular = \verb|\*+|
@@ -100,6 +179,17 @@ Expresi\'on regular = \verb|:+|
 
 \quad 25.
 Expresi\'on regular = \verb|~{3,5}|
+
+\quad 26.
+Expresi\'on regular = "[[File:"
+
+\quad 27.
+Expresi\'on regular = "thumb"
+
+\quad 28.
+Expresi\'on regular =  \verb|"alt="|
+
+\subsection{Aut\'omatas Finitos Deterministas:}
 
 \quad 1.
 \begin{center}
@@ -129,7 +219,200 @@ Expresi\'on regular = \verb|~{3,5}|
 \end{center}
 
 
-\quad 16.
+\quad 3.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node(B)(50,15){$q_1$}
+	\node[Nmarks={r}](C)(100,15){$q_2$}
+	\drawedge[curvedepth=6](A,B){]}
+	\drawedge[curvedepth=6](B,C){]}
+\end{picture}
+\end{center}
+
+\quad 4.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node[Nmarks={r}](B)(50,15){$q_2$}
+	\drawedge[curvedepth=6](A,B){[}
+\end{picture}
+\end{center}
+
+\quad 5.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node[Nmarks={r}](B)(50,15){$q_2$}
+	\drawedge[curvedepth=6](A,B){]}
+\end{picture}
+\end{center}
+
+
+\quad 6.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,30){$q_0$}
+	\node(B)(50,30){$q_1$}
+	\node(C)(100,30){$q_2$}
+	\node(D)(150,30){$q_3$}
+	\node(E)(200,30){$q_4$}
+	\node(F)(250,30){$q_5$}
+	\node(G)(250,0){$q_6$}
+	\node[Nmarks={r}](H)(200,0){$q_7$}
+	\drawedge[curvedepth=6](A,B){h}
+	\drawedge[curvedepth=6](B,C){t}
+	\drawedge[curvedepth=6](C,D){t}
+	\drawedge[curvedepth=6](D,E){p}
+	\drawedge[curvedepth=6](E,F){:}
+	\drawedge[curvedepth=6](F,G){/}
+	\drawedge[curvedepth=6](G,H){/}
+
+\end{picture}
+\end{center}
+
+
+
+
+\quad 7.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node(B)(50,15){$q_1$}
+	\node[Nmarks={r}](C)(100,15){$q_2$}
+	\drawedge[curvedepth=6](A,B){’}
+	\drawedge[curvedepth=6](B,C){’}
+\end{picture}
+\end{center}
+
+
+
+
+\quad 8.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node(B)(50,15){$q_1$}
+	\node(C)(100,15){$q_2$}
+	\node[Nmarks={r}](D)(150,15){$q_3$}
+	\drawedge[curvedepth=6](A,B){’}
+	\drawedge[curvedepth=6](B,C){’}
+	\drawedge[curvedepth=6](C,D){’}
+
+\end{picture}
+\end{center}
+
+
+\quad 9.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,30){$q_0$}
+	\node(B)(50,30){$q_1$}
+	\node(C)(100,30){$q_2$}
+	\node(D)(150,30){$q_3$}
+	\node(E)(200,30){$q_4$}
+	\node[Nmarks={r}](F)(250,30){$q_7$}
+	\drawedge[curvedepth=6](A,B){’}
+	\drawedge[curvedepth=6](B,C){’}
+	\drawedge[curvedepth=6](C,D){’}
+	\drawedge[curvedepth=6](D,E){’}
+	\drawedge[curvedepth=6](E,F){’}
+
+\end{picture}
+\end{center}
+
+\quad 10.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,30){$q_0$}
+	\node(B)(50,30){$q_1$}
+	\node(C)(100,30){$q_2$}
+	\node(D)(150,30){$q_3$}
+	\node(E)(200,30){$q_4$}
+	\node(F)(250,30){$q_5$}
+	\node(G)(300,30){$q_6$}
+	\node(H)(300,0){$q_7$}
+	\node(I)(250,0){$q_8$}
+	\node[Nmarks={r}](J)(200,0){$q_9$}
+	\drawedge[curvedepth=6](A,B){\#}
+	\drawedge[curvedepth=6](B,C){R}
+	\drawedge[curvedepth=6](C,D){E}
+	\drawedge[curvedepth=6](D,E){D}
+	\drawedge[curvedepth=6](E,F){I}
+	\drawedge[curvedepth=6](F,G){R}
+	\drawedge[curvedepth=6](G,H){E}
+	\drawedge[curvedepth=6](H,I){C}
+	\drawedge[curvedepth=6](I,J){T}
+
+
+
+\end{picture}
+\end{center}
+
+
+\quad 11.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node(B)(50,15){$q_1$}
+	\node[Nmarks={r}](C)(100,15){$q_3$}
+	\drawedge[curvedepth=6](A,B){=}
+	\drawedge[curvedepth=6](B,C){=}
+
+\end{picture}
+\end{center}
+
+\quad 12.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node(B)(50,15){$q_1$}
+	\node(C)(100,15){$q_2$}
+	\node[Nmarks={r}](D)(150,15){$q_3$}
+	\drawedge[curvedepth=6](A,B){=}
+	\drawedge[curvedepth=6](B,C){=}
+	\drawedge[curvedepth=6](C,D){=}
+
+\end{picture}
+\end{center}
+
+
+
+
+
+
+
+\quad 14.
 \begin{center}
 %\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
 %470-85 = 300
@@ -150,7 +433,7 @@ Expresi\'on regular = \verb|~{3,5}|
 \end{center}
 
 
-\quad 17.
+\quad 15.
 \begin{center}
 %\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
 %470-85 = 300
@@ -169,6 +452,328 @@ Expresi\'on regular = \verb|~{3,5}|
 	\drawedge[curvedepth=6](D,E){=}
 	\drawedge[curvedepth=6](E,F){=}
 	\drawedge[curvedepth=6](F,G){=}
+\end{picture}
+\end{center}
+
+
+\quad 16.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(500,120)(0,0)
+	\node[Nmarks={i}](A)(0,30){$q_0$}
+	\node(B)(50,30){$q_1$}
+	\node(C)(100,30){$q_2$}
+	\node(D)(150,30){$q_3$}
+	\node(E)(200,30){$q_4$}
+	\node(F)(250,30){$q_5$}
+	\node(G)(300,30){$q_6$}
+	\node(H)(350,30){$q_7$}
+	\node(I)(350,0){$q_8$}
+	\node(J)(300,0){$q_9$}
+	\node(K)(250,0){$q_{10}$}
+	\node(L)(200,0){$q_{11}$}
+	\node(M)(150,0){$q_{12}$}
+	\node(N)(100,0){$q_{13}$}
+	\node(O)(50,0){$q_{14}$}
+	
+	\node(Q)(50,80){$q_{16}$}
+	\node(R)(100,80){$q_{17}$}
+	\node(S)(150,80){$q_{18}$}
+	\node(T)(200,80){$q_{19}$}
+	\node(U)(250,80){$q_{20}$}
+	\node(V)(300,80){$q_{21}$}
+	\node(W)(350,80){$q_{22}$}
+	\node(X)(400,80){$q_{23}$}
+	\node(Y)(400,120){$q_{24}$}
+	\node(Z)(350,120){$q_{25}$}
+	\node(A1)(300,120){$q_{26}$}
+
+	
+	\node[Nmarks={r}](P)(0,0){$q_{15}$}
+	\node[Nmarks={r}](B1)(250,120){$q_{27}$}
+
+	\drawedge[curvedepth=6](A,B){(}
+	\drawedge[curvedepth=6](B,C){\<}
+	\drawedge[curvedepth=6](C,D){r}
+	\drawedge[curvedepth=6](D,E){e}
+	\drawedge[curvedepth=6](E,F){f}
+	\drawedge[curvedepth=6](F,G){e}
+	\drawedge[curvedepth=6](G,H){r}
+	\drawedge[curvedepth=6](H,I){e}
+	\drawedge[curvedepth=6](I,J){n}
+	\drawedge[curvedepth=6](J,K){c}
+	\drawedge[curvedepth=6](K,L){e}
+	\drawedge[curvedepth=6](L,M){s}
+	\drawedge[curvedepth=6](M,N){/}
+	\drawedge[curvedepth=6](N,O){$>$}
+	\drawedge[curvedepth=6](O,P){)}
+	
+	\drawedge[curvedepth=6](B,Q){ \{ }
+	\drawedge[curvedepth=6](Q,R){ \{ }
+	\drawedge[curvedepth=6](R,S){R}
+	\drawedge[curvedepth=6](S,T){e}
+	\drawedge[curvedepth=6](T,U){f}
+	\drawedge[curvedepth=6](U,V){l}
+	\drawedge[curvedepth=6](V,W){i}
+	\drawedge[curvedepth=6](W,X){s}
+	\drawedge[curvedepth=6](X,Y){t}
+	\drawedge[curvedepth=6](Y,Z){\}}
+	\drawedge[curvedepth=6](Z,A1){\}}
+	\drawedge[curvedepth=6](A1,B1){)}
+
+
+\end{picture}
+\end{center}
+
+
+\quad 17.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,30){$q_0$}
+	\node(B)(50,30){$q_1$}
+	\node(C)(100,30){$q_2$}
+	\node(D)(150,30){$q_3$}
+	\node(E)(200,30){$q_4$}
+	\node(F)(250,30){$q_5$}
+	\node(G)(300,30){$q_6$}
+	\node(H)(300,0){$q_7$}
+	\node(I)(250,0){$q_8$}
+	\node(J)(200,0){$q_9$}
+	\node(K)(150,0){$q_{10}$}
+	\node[Nmarks={r}](L)(100,0){$q_{11}$}
+	\drawedge[curvedepth=6](A,B){\<}
+	\drawedge[curvedepth=6](B,C){r}
+	\drawedge[curvedepth=6](C,D){e}
+	\drawedge[curvedepth=6](D,E){f}
+	\drawedge[curvedepth=6](E,F){'  '}
+	\drawedge[curvedepth=6](F,G){n}
+	\drawedge[curvedepth=6](G,H){a}
+	\drawedge[curvedepth=6](H,I){m}
+	\drawedge[curvedepth=6](I,J){e}
+	\drawedge[curvedepth=6](J,K){=}
+	\drawedge[curvedepth=6](K,L){ $"$ }
+
+\end{picture}
+\end{center}
+
+
+
+\quad 18.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node(B)(50,15){$q_1$}
+	\node[Nmarks={r}](C)(100,15){$q_2$}
+	\drawedge[curvedepth=6](A,B){$"$}
+	\drawedge[curvedepth=6](B,C){$>$}
+\end{picture}
+\end{center}
+
+
+\quad 19.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node(B)(50,15){$q_1$}
+	\node(C)(100,15){$q_2$}
+	\node(D)(150,15){$q_3$}
+	\node(E)(200,15){$q_4$}
+	\node(F)(250,15){$q_5$}
+	\node[Nmarks={r}](G)(300,15){$q_6$}
+	\drawedge[curvedepth=6](A,B){\<}
+	\drawedge[curvedepth=6](B,C){/}
+	\drawedge[curvedepth=6](C,D){r}
+	\drawedge[curvedepth=6](D,E){e}
+	\drawedge[curvedepth=6](E,F){f}
+	\drawedge[curvedepth=6](F,G){$>$}
+
+\end{picture}
+\end{center}
+
+
+
+\quad 20.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node(B)(50,15){$q_1$}
+	\node(C)(100,15){$q_2$}
+	\node(D)(150,15){$q_3$}
+	\node[Nmarks={r}](E)(200,15){$q_4$}
+	\drawedge[curvedepth=6](A,B){$"$}
+	\drawedge[curvedepth=6](B,C){'  '}
+	\drawedge[curvedepth=6](C,D){/}
+	\drawedge[curvedepth=6](D,E){$>$}
+
+\end{picture}
+\end{center}
+
+
+\quad 21.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node[Nmarks={r}](B)(50,15){$q_1$}
+	\drawedge[curvedepth=6](A,B){,}
+
+\end{picture}
+\end{center}
+
+
+
+\quad 22.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](3A)(0,30){$q_0$}
+	\node(B)(50,30){$q_	1$}
+	\node[Nmarks={r}](C)(100,30){$q_{2}$}
+	\drawedge[curvedepth=6](A,B){ \ }
+	\drawedge[curvedepth=6](B,C){*}
+	\drawloop[curvedepth=6](C){*}	
+	
+\end{picture}
+\end{center}
+
+\quad 23.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,30){$q_0$}
+	\node[Nmarks={r}](B)(50,30){$q_{1}$}
+	\drawedge[curvedepth=6](A,B){\#}
+	\drawloop[curvedepth=6](B){\#}	
+\end{picture}
+\end{center}
+
+
+\quad 24.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,30){$q_0$}
+	\node[Nmarks={r}](B)(50,30){$q_{1}$}
+	\drawedge[curvedepth=6](A,B){:}
+	\drawloop[curvedepth=6](B){:}	
+\end{picture}
+\end{center}
+
+
+\quad 25.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,30){$q_0$}
+	\node(B)(50,30){$q_1$}
+	\node(C)(100,30){$q_2$}
+	\node[Nmarks={r}](D)(150,30){$q_{3}$}
+	\node[Nmarks={r}](E)(200,30){$q_{4}$}
+	\node[Nmarks={r}](F)(250,30){$q_{5}$}
+	\drawedge[curvedepth=6](A,B){$\sim$}
+	\drawedge[curvedepth=6](B,C){$\sim$}
+	\drawedge[curvedepth=6](C,D){$\sim$}
+	\drawedge[curvedepth=6](D,E){$\sim$}
+	\drawedge[curvedepth=6](E,F){$\sim$}
+
+\end{picture}
+\end{center}
+
+
+
+
+
+\quad 26.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,30){$q_0$}
+	\node(B)(50,30){$q_1$}
+	\node(C)(100,30){$q_2$}
+	\node(D)(150,30){$q_3$}
+	\node(E)(200,30){$q_4$}
+	\node(F)(250,30){$q_5$}
+	\node(G)(300,30){$q_6$}
+	\node[Nmarks={r}](H)(300,0){$q_{7}$}
+	\drawedge[curvedepth=6](A,B){[}
+	\drawedge[curvedepth=6](B,C){[}
+	\drawedge[curvedepth=6](C,D){F}
+	\drawedge[curvedepth=6](D,E){i}
+	\drawedge[curvedepth=6](E,F){l}
+	\drawedge[curvedepth=6](F,G){e}
+	\drawedge[curvedepth=6](G,H){:}
+	
+\end{picture}
+\end{center}
+
+
+
+\quad 27.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,30){$q_0$}
+	\node(B)(50,30){$q_1$}
+	\node(C)(100,30){$q_2$}
+	\node(D)(150,30){$q_3$}
+	\node(E)(200,30){$q_4$}
+	\node[Nmarks={r}](F)(250,30){$q_{5}$}
+	\drawedge[curvedepth=6](A,B){t}
+	\drawedge[curvedepth=6](B,C){h}
+	\drawedge[curvedepth=6](C,D){u}
+	\drawedge[curvedepth=6](D,E){m}
+	\drawedge[curvedepth=6](E,F){b}
+	
+	
+\end{picture}
+\end{center}
+
+
+\quad 28.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,30){$q_0$}
+	\node(B)(50,30){$q_1$}
+	\node(C)(100,30){$q_2$}
+	\node(D)(150,30){$q_3$}
+	\node[Nmarks={r}](E)(200,30){$q_{4}$}
+	\drawedge[curvedepth=6](A,B){a}
+	\drawedge[curvedepth=6](B,C){l}
+	\drawedge[curvedepth=6](C,D){t}
+	\drawedge[curvedepth=6](D,E){=}
+	
+	
 \end{picture}
 \end{center}
 
