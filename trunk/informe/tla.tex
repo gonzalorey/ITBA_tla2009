@@ -410,6 +410,26 @@ Expresi\'on regular =  \verb|"alt="|
 
 
 
+\quad 13.
+\begin{center}
+%\begin{picture}(width desde margen derecho,height desde margen superior)(x-off,y-off)
+%470-85 = 300
+\setlength{\unitlength}{1pt}
+\begin{picture}(300,60)(0,0)
+	\node[Nmarks={i}](A)(0,15){$q_0$}
+	\node(B)(50,15){$q_1$}
+	\node(C)(100,15){$q_2$}
+	\node(D)(150,15){$q_3$}
+	\node[Nmarks={r}](E)(200,15){$q_4$}
+	\drawedge[curvedepth=6](A,B){=}
+	\drawedge[curvedepth=6](B,C){=}
+	\drawedge[curvedepth=6](C,D){=}
+	\drawedge[curvedepth=6](D,E){=}
+\end{picture}
+\end{center}
+
+
+
 
 
 \quad 14.
@@ -495,7 +515,7 @@ Expresi\'on regular =  \verb|"alt="|
 	\node[Nmarks={r}](B1)(250,120){$q_{27}$}
 
 	\drawedge[curvedepth=6](A,B){(}
-	\drawedge[curvedepth=6](B,C){\<}
+	\drawedge[curvedepth=6](B,C){$<$}
 	\drawedge[curvedepth=6](C,D){r}
 	\drawedge[curvedepth=6](D,E){e}
 	\drawedge[curvedepth=6](E,F){f}
@@ -546,7 +566,7 @@ Expresi\'on regular =  \verb|"alt="|
 	\node(J)(200,0){$q_9$}
 	\node(K)(150,0){$q_{10}$}
 	\node[Nmarks={r}](L)(100,0){$q_{11}$}
-	\drawedge[curvedepth=6](A,B){\<}
+	\drawedge[curvedepth=6](A,B){$<$}
 	\drawedge[curvedepth=6](B,C){r}
 	\drawedge[curvedepth=6](C,D){e}
 	\drawedge[curvedepth=6](D,E){f}
@@ -591,7 +611,7 @@ Expresi\'on regular =  \verb|"alt="|
 	\node(E)(200,15){$q_4$}
 	\node(F)(250,15){$q_5$}
 	\node[Nmarks={r}](G)(300,15){$q_6$}
-	\drawedge[curvedepth=6](A,B){\<}
+	\drawedge[curvedepth=6](A,B){$<$}
 	\drawedge[curvedepth=6](B,C){/}
 	\drawedge[curvedepth=6](C,D){r}
 	\drawedge[curvedepth=6](D,E){e}
@@ -644,12 +664,10 @@ Expresi\'on regular =  \verb|"alt="|
 %470-85 = 300
 \setlength{\unitlength}{1pt}
 \begin{picture}(300,60)(0,0)
-	\node[Nmarks={i}](3A)(0,30){$q_0$}
-	\node(B)(50,30){$q_	1$}
-	\node[Nmarks={r}](C)(100,30){$q_{2}$}
-	\drawedge[curvedepth=6](A,B){ \ }
-	\drawedge[curvedepth=6](B,C){*}
-	\drawloop[curvedepth=6](C){*}	
+	\node[Nmarks={i}](A)(0,30){$q_0$}
+	\node[Nmarks={r}](B)(100,30){$q_{1}$}
+	\drawedge[curvedepth=6](A,B){ * }
+	\drawloop[curvedepth=6](B){*}	
 	
 \end{picture}
 \end{center}
