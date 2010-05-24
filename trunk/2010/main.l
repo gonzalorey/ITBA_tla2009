@@ -17,7 +17,10 @@ STs				{ST}(,{ST})*
 SI				[A-Z]
 
 /* Producciones */
-PROD			({SNT}|{ST})+"->"(({SNT}|{ST})+|\\)
+
+PRED			({SNT}|{ST})+
+SUCC			({SNT}|{ST})+
+PROD			{PRED}"->"(({SUCC}(\|{SUCC})*)|\\)
 PRODs			{PROD}(,{PROD})*
 
 /* Grupos */
