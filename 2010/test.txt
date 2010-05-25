@@ -6,4 +6,6 @@ cuca2=({A,B},{a,b},A,{A->\})
 cuca3=({a,b,c},A,{A->a,B->b,C->c})
 cuca4=({A,B,C},{c},F,{A->a,B>b,C->c})
 cuca5=({A},{a,,A,{A->a,B->b,C->c})
+mult=({A,B},{a,b},A,{A->a|b,B->AaAa|A|D})
 cuca6=({A},{a,b,c},A,{A->a,B->b,casd->D})
+
