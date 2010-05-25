@@ -8,7 +8,7 @@
 
 typedef struct {
 	char *predecessor;
-	char *successor;
+	char *successor; //String vacio significa lambda
 } production_t;
 
 
