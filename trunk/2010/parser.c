@@ -35,6 +35,7 @@ main(int argc, char * argv[])
 		/* I'm the child */
 		sleep(1);
 		system(buf2);
+		system("rm ./samples/trans-file.txt");
 	}
 	
 	return 0;

@@ -59,10 +59,8 @@ CLOSE_GROUP		"}"
 <INITIAL>{GRAMMAR_NAME}/={OPENING_GRAMMAR}"{"{SNTs}"},{"{STs}"},"{SI}",{"{PRODs}"}"{CLOSING_GRAMMAR} {
 	BEGIN(IN_GRAMMAR);
 	
-	
 	currGrammar = newGrammar(yytext);
-	
-	printf("GRAMMAR_NAME:%s\n", yytext);
+	/*printf("GRAMMAR_NAME:%s\n", yytext);*/
 }
 
 <IN_GRAMMAR>{OPEN_GROUP}/{SNTs} {
@@ -70,9 +68,8 @@ CLOSE_GROUP		"}"
 }
 
 <IN_SNTs>{SNT} {
-	printf("SNT:%s\n",yytext);
-	
 	GrammarAddNonTerminal(currGrammar, yytext[0]);
+	/*printf("SNT:%s\n",yytext);*/
 }
 
 <IN_SNTs>{CLOSE_GROUP} {
@@ -82,7 +79,7 @@ CLOSE_GROUP		"}"
 <IN_STs>{ST} {
 
 	GrammarAddTerminal(currGrammar, yytext[0]);
-	printf("ST:%s\n",yytext);
+	/*printf("ST:%s\n",yytext);*/
 }
 
 <IN_STs>{CLOSE_GROUP} {
@@ -93,14 +90,14 @@ CLOSE_GROUP		"}"
 <IN_SI>{SI} {
 	BEGIN(IN_PRODs);
 	GrammarSetStarting(currGrammar, yytext[0]);
-	printf("SI:%s\n", yytext);
+	/*printf("SI:%s\n", yytext);*/
 	
 }
 
 <IN_PRODs>{PRED}/"->"{SUCCs} {
 
-	printf("PRED: %s\n", yytext);
 	BEGIN(IN_PROD);
+	/*printf("PRED: %s\n", yytext);*/
 	
 	if(currPred == NULL)
 		FreeString(currPred);
@@ -109,8 +106,8 @@ CLOSE_GROUP		"}"
 
 <IN_PROD>{SUCC}	{
 	
-	printf("SUCC: %s\n", yytext);
 	production_t *prod = malloc(sizeof(production_t));
+	/*printf("SUCC: %s\n", yytext);*/
 	
 	prod->predecessor = newString(currPred);
 	prod->successor = newString((yytext[0] == '\\')? "": yytext);
@@ -129,7 +126,7 @@ CLOSE_GROUP		"}"
 	
 	LinkedListInsert(grammarList, currGrammar);
 	
-	printf("OK GRAMMAR\n");
+	/*printf("OK GRAMMAR\n");*/
 }
 
 .		;
