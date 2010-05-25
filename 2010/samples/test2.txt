@@ -1,13 +1,14 @@
 /*SUPER TEST LOCO*/
-cuca=({A,B,C},     {a,b,c},A,{A->a,B->b,C->c})
-cuca33=({A,B,C},{a,b,c}      ,A,{A->a,B->b,C->c})
-cuca44=({A,B,C},{a,b,c},A,{A->a,B->b,/*mas test*/C->c})
+cuca=({A,B,C},     {a,b,c},A,{A->aA,B->Bb,C->Cc})
+cuca33=({A,B,C},{a,b,c}      ,A,{A->aA,B->bA|bB,C->c})
+cuca44=({A,B,C},{a,b,c},
+
+A,{A->a,B->Bb,/*mas test*/C->c})
 cuca2=({A,B},{a,b},A,{A->\})
-cuca3=({a,b,c},A,{A->a,B->b,C->       c})
+cuca3=({a,b,c},A,{A->Aa,B->b,C->       c})
 cuca4=({A,B,C},{c},F,{A->a,B>b,C->c}       )
 
 
 
 cuca5=({A},{a,,A,{A->a,B->b,C->c})
 c            uca6=({A},{a,b,c},A,{A->a,B->b,casd->D})
-
