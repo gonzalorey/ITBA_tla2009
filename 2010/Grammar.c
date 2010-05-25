@@ -53,7 +53,6 @@ void FreeGrammar(grammar_t grammar){
 
 }
 
-
 void GrammarAddNonTerminal(grammar_t grammar, char nonTerminal){
 
 	if(IS_UPPER(nonTerminal) && !StringContainsChar(grammar->snts, nonTerminal)){
@@ -252,15 +251,46 @@ void GrammarDump(grammar_t grammar){
 	}
 
 	printf("})\n");
-
-
-
 }
-
 
 void GrammarAddProduction(grammar_t grammar, production_t *production){
-	LinkedListInsert(grammar->prods, production);
+	if(!GrammarContainsProduction(grammar, production))
+		LinkedListInsert(grammar->prods, production);
+}
+
+int GrammarContainsProduction(grammar_t grammar, production_t *production){
+	LinkedListBeginIterator(grammar->prods);
+	
+	while(LinkedListHasNext(grammar->prods)){
+		production_t *prod = LinkedListGetNext(grammar->prods);
+		
+		if(strcmp(production->predecessor, prod->predecessor) == 0
+		 && strcmp(production->successor, prod->successor) == 0){
+			return 1;
+		}
+	}
+	
+	return 0;
+	
 }
 
 
+char *GrammarGetName(grammar_t grammar){
+	return grammar->name;
+}
 
+char *GrammarGetNonTerminals(grammar_t grammar){
+	return grammar->snts;
+}
+
+char *GrammarGetTerminals(grammar_t grammar){
+	return grammar->sts;
+}
+
+char GrammarGetStarting(grammar_t grammar){
+	return grammar->si;
+}
+
+LinkedList_t GrammarGetProductions(grammar_t grammar){
+	return grammar->prods;
+}
