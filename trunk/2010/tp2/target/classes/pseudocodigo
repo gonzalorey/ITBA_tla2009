@@ -1,0 +1,25 @@
+	
+
+	while(true){
+		tope = pila.tope();
+		
+		
+		if(tope.esNoTerminal()){
+			prod = matriz.obtener(tope, cadena.simbolo());
+			
+			if(prod != '\\')
+				pile.poner(prod);	
+			
+			
+		} else {
+		
+			if(tope != cadena.simbolo())
+				return false;
+			else if (tope != '#')
+				cadena.avanzar();
+			else
+				return true;
+		}
+		
+	} 
+	
