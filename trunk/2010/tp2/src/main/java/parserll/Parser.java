@@ -5,7 +5,15 @@ import java.util.NoSuchElementException;
 public class Parser {
 
 	
-	public boolean belongs(Table predictionTable, String string){
+	private Table predictionTable;
+	
+	
+	public Parser(Table predictionTable){
+		this.predictionTable = predictionTable;
+	}
+	
+	
+	public boolean belongs(String string){
 		
 		Stack stack = new Stack(Simbol.getArrayOfSimbols("S#"));
 		InputString input = new InputString(string);
