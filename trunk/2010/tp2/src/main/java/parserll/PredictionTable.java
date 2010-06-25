@@ -16,10 +16,6 @@ public class PredictionTable implements Table {
 		}
 	}
 	
-	/**
-	 * Esta tabla informa las producciones a seguir para la gramtica
-	 */
-	
 	@Override
 	public Simbol[] getRightPart(Simbol stackSimbol, Simbol stringSimbol) {
 
