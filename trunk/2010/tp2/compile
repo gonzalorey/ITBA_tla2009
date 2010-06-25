@@ -1,3 +1,6 @@
 mvn assembly:assembly
 mv target/parserll-0.0.1-jar-with-dependencies.jar ./parserll.jar
 mvn clean
+echo ""
+echo "For usaje excecute: $> java -jar parserll.jar <grammarfile> <string>"
+echo ""
