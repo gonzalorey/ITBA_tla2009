@@ -20,5 +20,17 @@ public class Production {
 		return rightPart;
 	}
 	
+
+	public String toString(){
+		
+		String rPart = "";
+		
+		for(Simbol b: rightPart){
+			rPart += b.toString();
+		}
+		
+		return leftPart.toString() + "->" + rPart; 		
+		
+	}
 	
 }

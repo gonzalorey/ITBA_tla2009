@@ -38,6 +38,10 @@ public class Simbol implements SpecialSimbols {
 		return simbol;
 	}
 	
+	public String toString(){
+		return Character.toString(simbol);
+	}
+	
 	
 	public boolean isLambda() {
 		return simbol == LAMBDA;
