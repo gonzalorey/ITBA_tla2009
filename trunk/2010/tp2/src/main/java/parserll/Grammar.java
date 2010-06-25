@@ -15,16 +15,16 @@ public class Grammar {
 		while((line = reader.readLine()) != null){
 			String[] parts = line.split(" ");
 			
-			Simbol rigthPart = new Simbol(parts[0].toCharArray()[0]);
+			Symbol rigthPart = new Symbol(parts[0].toCharArray()[0]);
 			
-			Simbol[] leftPart = null;
+			Symbol[] leftPart = null;
 			
 			if(parts.length == 2){
-				leftPart = Simbol.getArrayOfSimbols(parts[1]);
+				leftPart = Symbol.getArrayOfSymbols(parts[1]);
 			}
 			else{
-				leftPart = new Simbol[1];
-				leftPart[0] = Simbol.getLambda();
+				leftPart = new Symbol[1];
+				leftPart[0] = Symbol.getLambda();
 			}
 			
 			Production prod = new Production(rigthPart, leftPart); 

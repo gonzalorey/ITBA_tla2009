@@ -21,7 +21,6 @@ public class Main {
 			System.out.println("$> java -jar parserll.jar <gramarfile> <string>");
 			System.out.println("\nExample: $> java -jar parserll.jar  anbn aaabbb\n");
 			System.exit(1);
-			
 		}
 		
 		String filename = args[0];
@@ -33,14 +32,13 @@ public class Main {
 		
 		Grammar.populateProductions(grammar, in);
 		
-		
+
 		in.close();
 		
 		
 		System.out.println(grammar);
 		
-		Parser parser = new Parser(new WiredTable());
-		
+		Parser parser = new Parser(grammar.getPredictionTable());
 		
 		System.out.println("La cadena \"" + cadena + "\" " + ((parser.belongs(cadena))? "":"no ") + "pertenece al lenguaje");
 		

@@ -15,7 +15,7 @@ public class Parser {
 	
 	public boolean belongs(String string){
 		
-		Stack stack = new Stack(Simbol.getArrayOfSimbols("S#"));
+		Stack stack = new Stack(Symbol.getArrayOfSymbols("S#"));
 		InputString input = new InputString(string);
 		
 		
@@ -23,21 +23,21 @@ public class Parser {
 			
 			while(true){
 				
-				Simbol top = stack.pop();
+				Symbol top = stack.pop();
 				
 				if(top.isTerminal()){
 	
-					if(!top.equals(input.getSimbol()))
+					if(!top.equals(input.getSymbol()))
 						return false;
-					else if (!top.equals(Simbol.getEndMark()))
-						input.nextSimbol();
+					else if (!top.equals(Symbol.getEndMark()))
+						input.nextSymbol();
 					else
 						return true;
 				} else {
 					
-					Simbol[] rightPart = predictionTable.getRightPart(top, input.getSimbol());
+					Symbol[] rightPart = predictionTable.getRightPart(top, input.getSymbol());
 					
-					if(!(rightPart.length == 1 && rightPart[0].equals(Simbol.getLambda())))
+					if(!(rightPart.length == 1 && rightPart[0].equals(Symbol.getLambda())))
 						stack.push(rightPart);
 				}
 			}

@@ -4,30 +4,30 @@ package parserll;
 public class TableKey implements Comparable<TableKey>{
 
 	//Symbol from the string
-	private Simbol stringSimbol;
+	private Symbol stringSymbol;
 	
 	//Symbol from the stack
-	private Simbol stackSimbol;
+	private Symbol stackSymbol;
 	
-	public TableKey(Simbol stringSimbol, Simbol stackSimbol){
-		this.stringSimbol = stringSimbol;
-		this.stackSimbol = stackSimbol;
+	public TableKey(Symbol stringSymbol, Symbol stackSymbol){
+		this.stringSymbol = stringSymbol;
+		this.stackSymbol = stackSymbol;
 	}
 	
-	public Simbol getStringSimbol() {
-		return stringSimbol;
+	public Symbol getStringSymbol() {
+		return stringSymbol;
 	}
 	
-	public void setStringSimbol(Simbol stringSimbol) {
-		this.stringSimbol = stringSimbol;
+	public void setStringSymbol(Symbol stringSymbol) {
+		this.stringSymbol = stringSymbol;
 	}
 	
-	public Simbol getStackSimbol() {
-		return stackSimbol;
+	public Symbol getStackSymbol() {
+		return stackSymbol;
 	}
 	
-	public void setStackSimbol(Simbol stackSimbol) {
-		this.stackSimbol = stackSimbol;
+	public void setStackSymbol(Symbol stackSymbol) {
+		this.stackSymbol = stackSymbol;
 	}
 	
 	@Override
@@ -42,23 +42,23 @@ public class TableKey implements Comparable<TableKey>{
 			return false;
 		
 		TableKey t = (TableKey) obj;
-		return t.getStringSimbol().equals(this.stringSimbol) && t.getStackSimbol().equals(this.stackSimbol);
+		return t.getStringSymbol().equals(this.stringSymbol) && t.getStackSymbol().equals(this.stackSymbol);
 	}
 	
 	@Override
 	public int hashCode() {
-		return this.stringSimbol.hashCode() + this.stackSimbol.hashCode();
+		return this.stringSymbol.hashCode() + this.stackSymbol.hashCode();
 	}
 
 	@Override
 	public int compareTo(TableKey obj) {
-		if(obj.getStackSimbol().getSimbol() > this.stackSimbol.getSimbol())
+		if(obj.getStackSymbol().getSymbol() > this.stackSymbol.getSymbol())
 			return 1;
-		if(obj.getStackSimbol().getSimbol() < this.stackSimbol.getSimbol())
+		if(obj.getStackSymbol().getSymbol() < this.stackSymbol.getSymbol())
 			return -1;
-		if(obj.getStringSimbol().getSimbol() > this.stringSimbol.getSimbol())
+		if(obj.getStringSymbol().getSymbol() > this.stringSymbol.getSymbol())
 			return 1;
-		if(obj.getStringSimbol().getSimbol() > this.stringSimbol.getSimbol())
+		if(obj.getStringSymbol().getSymbol() > this.stringSymbol.getSymbol())
 			return -1;
 		return 0;
 	}

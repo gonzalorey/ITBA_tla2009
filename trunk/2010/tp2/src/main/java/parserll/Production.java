@@ -2,21 +2,21 @@ package parserll;
 
 public class Production {
 
-	private Simbol leftPart;
-	private Simbol[] rightPart;
+	private Symbol leftPart;
+	private Symbol[] rightPart;
 	
 	
-	public Production(Simbol leftPart, Simbol[] rightPart){
+	public Production(Symbol leftPart, Symbol[] rightPart){
 		this.leftPart = leftPart;
 		this.rightPart = rightPart;
 	}
 	
 	
-	public Simbol getLeftPart(){
+	public Symbol getLeftPart(){
 		return leftPart;
 	}
 	
-	public Simbol[] getRightPart(){
+	public Symbol[] getRightPart(){
 		return rightPart;
 	}
 	
@@ -25,7 +25,7 @@ public class Production {
 		
 		String rPart = "";
 		
-		for(Simbol b: rightPart){
+		for(Symbol b: rightPart){
 			rPart += b.toString();
 		}
 		
