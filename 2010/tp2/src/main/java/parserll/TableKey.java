@@ -58,7 +58,7 @@ public class TableKey implements Comparable<TableKey>{
 			return -1;
 		if(obj.getStringSymbol().getSymbol() > this.stringSymbol.getSymbol())
 			return 1;
-		if(obj.getStringSymbol().getSymbol() > this.stringSymbol.getSymbol())
+		if(obj.getStringSymbol().getSymbol() < this.stringSymbol.getSymbol())
 			return -1;
 		return 0;
 	}
