@@ -13,17 +13,17 @@ public class WiredTable implements Table {
 	 */
 	
 	@Override
-	public Simbol[] getRightPart(Simbol stackSimbol, Simbol stringSimbol) {
+	public Symbol[] getRightPart(Symbol stackSymbol, Symbol stringSymbol) {
 
-		if(stackSimbol.isTerminal() || !stringSimbol.isTerminal()){
-			throw new InputMismatchException("stackSimbol can not be terminal and stringSimbol nor not terminal");
+		if(stackSymbol.isTerminal() || !stringSymbol.isTerminal()){
+			throw new InputMismatchException("stackSymbol can not be terminal and stringSymbol nor not terminal");
 		}
 		
-		if(stackSimbol.getSimbol() == 'S'){
-			if (stringSimbol.getSimbol() == '('){
-				return Simbol.getArrayOfSimbols("(S)");
-			} else if(stringSimbol.getSimbol() == 'a'){
-				return Simbol.getArrayOfSimbols("a");
+		if(stackSymbol.getSymbol() == 'S'){
+			if (stringSymbol.getSymbol() == '('){
+				return Symbol.getArrayOfSymbols("(S)");
+			} else if(stringSymbol.getSymbol() == 'a'){
+				return Symbol.getArrayOfSymbols("a");
 			}
 		}
 		throw new NoSuchElementException("There is not a right part for this convination");

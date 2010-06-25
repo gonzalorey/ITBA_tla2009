@@ -8,15 +8,15 @@ public class InputString {
 	
 	
 	public InputString(String string){
-		this.string = (string + SpecialSimbols.END_OF_STRING_MARK).toCharArray(); 
+		this.string = (string + SpecialSymbols.END_OF_STRING_MARK).toCharArray(); 
 	}
 	
 	
-	public Simbol getSimbol(){
-		return new Simbol(string[index]);
+	public Symbol getSymbol(){
+		return new Symbol(string[index]);
 	}
 	
-	public void nextSimbol(){
+	public void nextSymbol(){
 		index++;
 	}
 	

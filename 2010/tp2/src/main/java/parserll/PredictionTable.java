@@ -8,32 +8,32 @@ import java.util.TreeMap;
 
 public class PredictionTable implements Table {
 
-	private Map<TableKey, Simbol[]> table = new TreeMap<TableKey, Simbol[]>(); 
+	private Map<TableKey, Symbol[]> table = new TreeMap<TableKey, Symbol[]>(); 
 	
 	public PredictionTable(List<Production> productions){
 		
-		Simbol string, stack;
+		Symbol string, stack;
 		
 		for(Production p : productions){
-			stack = new Simbol(p.getLeftPart().getSimbol());
-			string = new Simbol(p.getRightPart()[0].getSimbol());
+			stack = new Symbol(p.getLeftPart().getSymbol());
+			string = new Symbol(p.getRightPart()[0].getSymbol());
 			table.put(new TableKey(string, stack), p.getRightPart());
 		}
 	}
 	
 	@Override
-	public Simbol[] getRightPart(Simbol stackSimbol, Simbol stringSimbol) {
+	public Symbol[] getRightPart(Symbol stackSymbol, Symbol stringSymbol) {
 
-		if(stackSimbol.isTerminal() || !stringSimbol.isTerminal()){
-			throw new InputMismatchException("stackSimbol cannot be terminal and stringSimbol either");
+		if(stackSymbol.isTerminal() || !stringSymbol.isTerminal()){
+			throw new InputMismatchException("stackSymbol cannot be terminal and stringSymbol either");
 		}
 	
-		//load the simbols
-		Simbol string = new Simbol(stringSimbol.getSimbol());
-		Simbol stack = new Simbol(stackSimbol.getSimbol());
+		//load the symbols
+		Symbol string = new Symbol(stringSymbol.getSymbol());
+		Symbol stack = new Symbol(stackSymbol.getSymbol());
 
 		//get the value from the table
-		Simbol[] ans = table.get(new TableKey(string, stack));
+		Symbol[] ans = table.get(new TableKey(string, stack));
 		
 		if(ans == null)
 			throw new NoSuchElementException("There isn't a right part for this conbination");

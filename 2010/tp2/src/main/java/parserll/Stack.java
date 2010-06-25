@@ -4,9 +4,9 @@ import java.util.LinkedList;
 
 public class Stack {
 
-	private LinkedList<Simbol> stack = new LinkedList<Simbol>();
+	private LinkedList<Symbol> stack = new LinkedList<Symbol>();
 	
-	public Stack(Simbol[] initialStack){
+	public Stack(Symbol[] initialStack){
 		this();
 
 		push(initialStack);
@@ -19,12 +19,12 @@ public class Stack {
 	
 	
 	
-	public void push(Simbol s){
+	public void push(Symbol s){
 		stack.push(s);
 	}
 	
 
-	public void push(Simbol[] s){
+	public void push(Symbol[] s){
 		
 		for(int i = s.length - 1 ; i  >= 0 ; i--){
 			push(s[i]);
@@ -32,7 +32,7 @@ public class Stack {
 		
 	}
 	
-	public Simbol pop(){
+	public Symbol pop(){
 		return stack.pop();
 	}
 	
