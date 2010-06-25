@@ -1,18 +1,23 @@
 package parserll;
 
-import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.TreeMap;
 
 public class PredictionTable implements Table {
 
-	private Map<Simbol, Simbol[]> table = new HashMap<Simbol, Simbol[]>(); 
+	private Map<TableKey, Simbol[]> table = new TreeMap<TableKey, Simbol[]>(); 
 	
 	public PredictionTable(List<Production> productions){
+		
+		Simbol string, stack;
+		
 		for(Production p : productions){
-			table.put(p.getLeftPart(), p.getRightPart());
+			stack = new Simbol(p.getLeftPart().getSimbol());
+			string = new Simbol(p.getRightPart()[0].getSimbol());
+			table.put(new TableKey(string, stack), p.getRightPart());
 		}
 	}
 	
@@ -20,18 +25,19 @@ public class PredictionTable implements Table {
 	public Simbol[] getRightPart(Simbol stackSimbol, Simbol stringSimbol) {
 
 		if(stackSimbol.isTerminal() || !stringSimbol.isTerminal()){
-			throw new InputMismatchException("stackSimbol can not be terminal and stringSimbol nor not terminal");
+			throw new InputMismatchException("stackSimbol cannot be terminal and stringSimbol either");
 		}
-		
-		if(stackSimbol.getSimbol() == 'S'){
-			if (stringSimbol.getSimbol() == '('){
-				return Simbol.getArrayOfSimbols("(S)");
-			} else if(stringSimbol.getSimbol() == 'a'){
-				return Simbol.getArrayOfSimbols("a");
-			}
-		}
-		throw new NoSuchElementException("There is not a right part for this convination");
-	}
-
 	
+		//load the simbols
+		Simbol string = new Simbol(stringSimbol.getSimbol());
+		Simbol stack = new Simbol(stackSimbol.getSimbol());
+
+		//get the value from the table
+		Simbol[] ans = table.get(new TableKey(string, stack));
+		
+		if(ans == null)
+			throw new NoSuchElementException("There isn't a right part for this conbination");
+		
+		return ans;
+	}
 }

@@ -65,5 +65,4 @@ public class Simbol implements SpecialSimbols {
 		
 	}
 	
-	
 }
