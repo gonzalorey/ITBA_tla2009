@@ -20,22 +20,7 @@ public class PredictionTable implements Table {
 			string = new Symbol(p.getRightPart()[0].getSymbol());
 			key = new TableKey(string, stack); 
 			
-			//if it was already put (with a null value), remove it
-			if(table.get(key) != null && table.get(key).length == 0)
-				table.remove(key);
-				
-			//insert the original
-			table.put(new TableKey(string, stack), p.getRightPart());
-			
-			//insert the rest of the values
-			for(int i = 1; i < p.getRightPart().length; i++){
-				string = new Symbol(p.getRightPart()[i].getSymbol());
-				key = new TableKey(string, stack);
-				
-				//in this case, ONLY if it's null put it...
-				if(table.get(key) == null)
-					table.put(key, Symbol.getArrayOfSymbols(""));
-			}
+			table.put(key, p.getRightPart());
 		}
 
 	}
@@ -54,8 +39,13 @@ public class PredictionTable implements Table {
 		//get the value from the table
 		Symbol[] ans = table.get(new TableKey(string, stack));
 		
-		if(ans == null)
-			throw new NoSuchElementException("There isn't a right part for this conbination");
+		if(ans == null){
+			if(!stringSymbol.isTerminal())
+				throw new NoSuchElementException("There isn't a right part for this conbination");
+			else
+				ans = Symbol.getArrayOfSymbols("");
+		}
+			
 		
 		//if its a null value, return null, else the answer
 		return ans;
