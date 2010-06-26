@@ -72,7 +72,7 @@ public class PredictionTable implements Table {
 					ans += "_";
 			}else{
 				for(int i = 0; i < table.get(key).length; i++)
-					ans += table.get(key)[0];
+					ans += table.get(key)[i];
 			}
 			
 			ans += "\n";
