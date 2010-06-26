@@ -15,13 +15,6 @@ public class PredictionTable implements Table {
 		Symbol string, stack;
 		TableKey key;
 		
-		//fill the table with the productions 
-//		for(Production p : productions){
-//			stack = new Symbol(p.getLeftPart().getSymbol());
-//			string = new Symbol(p.getRightPart()[0].getSymbol());
-//			table.put(new TableKey(string, stack), p.getRightPart());
-//		}
-		
 		for(Production p : productions){
 			stack = new Symbol(p.getLeftPart().getSymbol());
 			string = new Symbol(p.getRightPart()[0].getSymbol());
@@ -65,6 +58,26 @@ public class PredictionTable implements Table {
 			throw new NoSuchElementException("There isn't a right part for this conbination");
 		
 		//if its a null value, return null, else the answer
+		return ans;
+	}
+	
+	@Override
+	public String toString() {
+		String ans = "";
+		
+		for(TableKey key : table.keySet()){
+			ans += key + ":";
+			
+			if(table.get(key).length == 0){
+					ans += "_";
+			}else{
+				for(int i = 0; i < table.get(key).length; i++)
+					ans += table.get(key)[0];
+			}
+			
+			ans += "\n";
+		}
+		
 		return ans;
 	}
 }

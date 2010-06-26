@@ -18,6 +18,7 @@ public class Parser {
 		Stack stack = new Stack(Symbol.getArrayOfSymbols("S#"));
 		InputString input = new InputString(string);
 		
+		System.out.println("Using the table: \n" +  predictionTable);
 		
 		try {
 			

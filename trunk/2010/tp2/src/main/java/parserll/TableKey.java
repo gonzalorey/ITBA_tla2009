@@ -62,4 +62,9 @@ public class TableKey implements Comparable<TableKey>{
 			return -1;
 		return 0;
 	}
+	
+	@Override
+	public String toString() {
+		return stringSymbol + " - " + stackSymbol;
+	}
 }
