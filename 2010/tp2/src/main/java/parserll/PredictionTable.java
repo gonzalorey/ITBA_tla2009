@@ -21,7 +21,7 @@ public class PredictionTable implements Table {
 			key = new TableKey(string, stack); 
 			
 			//if it was already put (with a null value), remove it
-			if(table.get(key) != null)
+			if(table.get(key) != null && table.get(key).length == 0)
 				table.remove(key);
 				
 			//insert the original
