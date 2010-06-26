@@ -56,17 +56,17 @@ public class Grammar {
 	public String toString(){
 		String ret = "";
 		String sep = "";
-		ret += name;
+		ret += "Grammar '" + name + "':\n";
 		
-		ret += "=<{";
+//		ret += "=<{";
 		
 		for(Production p: productions){
 			ret += sep;
 			ret += p;
-			sep = ",";
+			sep = "\n";
 		}
 
-		ret += "}>";
+//		ret += "}>";
 		
 		return ret;
 	}
@@ -75,4 +75,20 @@ public class Grammar {
 		return new PredictionTable(productions);
 	}
 	
+	public String getName(){
+		return name;
+	}
+	
+	public String getProductionsString(){
+		String ret = "";
+		String sep = "";
+		
+		for(Production p: productions){
+			ret += sep;
+			ret += p;
+			sep = "\n";
+		}
+		
+		return ret;
+	}
 }
