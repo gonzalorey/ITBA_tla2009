@@ -23,7 +23,6 @@ public class Symbol implements SpecialSymbols {
 	public static Symbol getLambda(){
 		return new Symbol(Symbol.LAMBDA);
 	}
-
 	                     
 	public boolean isTerminal(){
 		return !Character.isUpperCase(symbol);
